@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MOCKYS // Pagina 3</title>
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+  <div class="wrap">
+    <div class="header">
+      <div class="brand">
+        <div class="dot"></div>
+        <div class="title">MOCKYS // CAMERINO</div>
+      </div>
+      <div class="status"><span class="blink"></span>lucchetto digitale</div>
+    </div>
+
+    <div class="main">
+      <div class="terminal">
+        <div class="scanline"></div>
+
+        <div class="hint">
+          <strong>Pagina 3 — Il Camerino</strong><br>
+          <span class="muted">Hai visto i numeri? Ora mettili in ordine.</span>
+        </div>
+
+        <div class="block">
+          <div class="small muted">PROMEMORIA</div>
+          <div class="small">Nel video TikTok i numeri compaiono per un frame. Servono occhi e pazienza.</div>
+        </div>
+
+        <!-- Cambia data-secret quando vuoi -->
+        <div class="display" id="codeDisplay"></div>
+        <div class="small" id="codeStatus" style="margin-top:8px;"></div>
+
+        <div id="keypad" class="keypad" data-secret="739104">
+          <button data-key="1">1</button><button data-key="2">2</button><button data-key="3">3</button>
+          <button data-key="4">4</button><button data-key="5">5</button><button data-key="6">6</button>
+          <button data-key="7">7</button><button data-key="8">8</button><button data-key="9">9</button>
+          <button data-key="CLR">CLR</button><button data-key="0">0</button><button data-key="DEL">DEL</button>
+        </div>
+
+        <div id="sigillo3" style="margin-top:16px;"></div>
+
+        <div class="block">
+          <div class="small muted">Hint (soft)</div>
+          <div class="small">Se sbagli troppo, il sistema ti mette in pausa. Come la vita.</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="./js/app.js"></script>
+</body>
+</html>
