@@ -1,99 +1,163 @@
-<script>
-/*
-  SYSTEM CORE v1.0 — LEGACY CRYPTO
-  NOTE: This page is supposed to fail.
-  If you want answers, extract and verify outside the browser.
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Welcome to my Homepage!!!</title>
 
-  Cipher: Vigenère
-  Alphabet: A-Z0-9
-*/
+  <style>
+    body {
+      background: #000;
+      color: #00ff00;
+      font-family: "Comic Sans MS", monospace;
+      text-align: center;
+      padding: 10px;
+    }
+    marquee {
+      color: yellow;
+      font-size: 18px;
+      margin-top: 8px;
+    }
+    .box {
+      border: 3px double #00ff00;
+      padding: 15px;
+      width: min(820px, 92vw);
+      margin: 26px auto;
+      background: rgba(0,0,0,0.90);
+    }
+    .blink { animation: blink 1s infinite; }
+    @keyframes blink { 0%{opacity:1} 50%{opacity:0} 100%{opacity:1} }
+    a { color: cyan; }
+    .tiny { font-size: 12px; opacity: 0.85; }
+  </style>
+</head>
 
-(function () {
-  console.clear();
-  console.log("%cSYSTEM BOOTING...", "color:#00ff00");
-  console.log("Loading legacy modules...");
-  console.log("Network: 56k (simulated)");
-  console.log("Status: unstable");
+<body>
 
-  // Payload cifrato (base64 di testo cifrato Vigenère su alfabeto A-Z0-9)
-  const payloadB64 =
-    "OVdWWlo0UyA2SSAtIEpHODdQMlMKMVAgNkFMNDUgMTM0IFMgRFIgV1VJODUuIFMgOTRPIF" +
-    "lWUFFPNjREUC4KNk9CVzdPTDU6IDVaU0RTVThEClBMRzk2WDMyIEVFMkNJOiA4VjFUOVdC";
+  <marquee behavior="alternate">WELCOME TO THE OLD WEB</marquee>
 
-  // Chiave volutamente errata (i giocatori devono derivarla da FB + brute/verify)
-  const KEY = "BROKENKEY";
+  <h1 class="blink">This page is under construction</h1>
 
-  const ALPH = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  <div class="box">
+    <p>
+      This site was last updated in <b>2003</b>.<br>
+      JavaScript support is <i>experimental</i>.
+    </p>
 
-  function onlyAlphabet(s) {
-    return (s || "")
-      .toUpperCase()
-      .split("")
-      .filter(ch => ALPH.includes(ch))
-      .join("");
-  }
+    <p>
+      If something is broken,<br>
+      it means you are looking at it correctly.
+    </p>
 
-  function vigenereDecrypt(cipherText, key) {
-    const k = onlyAlphabet(key);
-    if (!k) return "";
+    <p class="tiny">
+      Press <b>F12</b> — Console
+    </p>
 
-    let out = "";
-    let ki = 0;
+    <p>
+      <a href="#" onclick="return false;">Enter the system</a>
+    </p>
+  </div>
 
-    for (const ch of cipherText) {
-      const up = ch.toUpperCase();
-      if (ALPH.includes(up)) {
-        const c = ALPH.indexOf(up);
-        const kk = ALPH.indexOf(k[ki % k.length]);
-        const p = (c - kk + ALPH.length) % ALPH.length;
-        out += ALPH[p];
-        ki++;
-      } else {
-        // Manteniamo spazi, punti, a-capo ecc. (non consumano la chiave)
-        out += ch;
+  <!-- ✅ QUI IL TUO SCRIPT -->
+  <script>
+  /*
+    SYSTEM CORE v1.0 — LEGACY CRYPTO
+    NOTE: This page is supposed to fail.
+    If you want answers, extract and verify outside the browser.
+
+    Cipher: Vigenère
+    Alphabet: A-Z0-9
+  */
+
+  (function () {
+    console.clear();
+    console.log("%cSYSTEM BOOTING...", "color:#00ff00");
+    console.log("Loading legacy modules...");
+    console.log("Network: 56k (simulated)");
+    console.log("Status: unstable");
+
+    // Payload cifrato (base64 di testo cifrato Vigenère su alfabeto A-Z0-9)
+    const payloadB64 =
+      "OVdWWlo0UyA2SSAtIEpHODdQMlMKMVAgNkFMNDUgMTM0IFMgRFIgV1VJODUuIFMgOTRPIF" +
+      "lWUFFPNjREUC4KNk9CVzdPTDU6IDVaU0RTVThEClBMRzk2WDMyIEVFMkNJOiA4VjFUOVdC";
+
+    // Chiave volutamente errata (i giocatori devono derivarla da FB + brute/verify)
+    const KEY = "BROKENKEY";
+
+    const ALPH = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+    function onlyAlphabet(s) {
+      return (s || "")
+        .toUpperCase()
+        .split("")
+        .filter(ch => ALPH.includes(ch))
+        .join("");
+    }
+
+    function vigenereDecrypt(cipherText, key) {
+      const k = onlyAlphabet(key);
+      if (!k) return "";
+
+      let out = "";
+      let ki = 0;
+
+      for (const ch of cipherText) {
+        const up = ch.toUpperCase();
+        if (ALPH.includes(up)) {
+          const c = ALPH.indexOf(up);
+          const kk = ALPH.indexOf(k[ki % k.length]);
+          const p = (c - kk + ALPH.length) % ALPH.length;
+          out += ALPH[p];
+          ki++;
+        } else {
+          // Manteniamo spazi, punti, a-capo ecc. (non consumano la chiave)
+          out += ch;
+        }
       }
-    }
-    return out;
-  }
-
-  function verify(plain) {
-    // Verifica semplice ma efficace: se non c'è struttura, la chiave è sbagliata.
-    return (
-      plain.includes("SIGILLO") &&
-      plain.includes("PORTALE") &&
-      plain.includes("PASSWORD:") &&
-      plain.includes("GENESIS")
-    );
-  }
-
-  function run(keyCandidate) {
-    let cipherText = "";
-    try {
-      cipherText = atob(payloadB64);
-    } catch (e) {
-      console.error("SYSTEM ERROR: payload desync.");
-      return;
+      return out;
     }
 
-    const plain = vigenereDecrypt(cipherText, keyCandidate);
-
-    if (!verify(plain)) {
-      console.warn("%cTEMPORAL DESYNC DETECTED.", "color:yellow");
-      console.warn("Key rejected.");
-      console.warn("Hint: the old web was never linear.");
-      console.warn("Hint: extract, separate, verify.");
-      return;
+    function verify(plain) {
+      // Verifica semplice ma efficace: se non c'è struttura, la chiave è sbagliata.
+      return (
+        plain.includes("SIGILLO") &&
+        plain.includes("PORTALE") &&
+        plain.includes("PASSWORD:") &&
+        plain.includes("GENESIS")
+      );
     }
 
-    console.log("%cACCESS GRANTED.", "color:#00ff00");
-    console.log("----");
-    console.log(plain);
-    console.log("----");
-    console.log("%cEND OF STREAM.", "color:#00ff00");
-  }
+    function run(keyCandidate) {
+      let cipherText = "";
+      try {
+        cipherText = atob(payloadB64);
+      } catch (e) {
+        console.error("SYSTEM ERROR: payload desync.");
+        return;
+      }
 
-  // Avvio con chiave sbagliata (comportamento previsto)
-  run(KEY);
+      const plain = vigenereDecrypt(cipherText, keyCandidate);
 
-})();
-</script>
+      if (!verify(plain)) {
+        console.warn("%cTEMPORAL DESYNC DETECTED.", "color:yellow");
+        console.warn("Key rejected.");
+        console.warn("Hint: the old web was never linear.");
+        console.warn("Hint: extract, separate, verify.");
+        return;
+      }
+
+      console.log("%cACCESS GRANTED.", "color:#00ff00");
+      console.log("----");
+      console.log(plain);
+      console.log("----");
+      console.log("%cEND OF STREAM.", "color:#00ff00");
+    }
+
+    // Avvio con chiave sbagliata (comportamento previsto)
+    run(KEY);
+
+  })();
+  </script>
+
+</body>
+</html>
