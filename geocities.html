@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <title>Welcome to my Homepage!!!</title>
+
+  <style>
+    body {
+      background: black url('https://media.giphy.com/media/oEI9uBYSzLpBK/giphy.gif');
+      color: #00ff00;
+      font-family: "Comic Sans MS", monospace;
+      text-align: center;
+    }
+    marquee {
+      color: yellow;
+      font-size: 18px;
+    }
+    .box {
+      border: 3px double #00ff00;
+      padding: 15px;
+      width: 80%;
+      margin: 30px auto;
+      background: rgba(0,0,0,0.85);
+    }
+    .blink {
+      animation: blink 1s infinite;
+    }
+    @keyframes blink {
+      0% { opacity: 1; }
+      50% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    a { color: cyan; }
+  </style>
+</head>
+
+<body>
+
+<marquee behavior="alternate">WELCOME TO THE OLD WEB</marquee>
+
+<h1 class="blink">This page is under construction</h1>
+
+<img src="https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif" width="120">
+
+<div class="box">
+  <p>
+    This site was last updated in <b>2003</b>.<br>
+    JavaScript support is <i>experimental</i>.
+  </p>
+
+  <p>
+    If something is broken,<br>
+    it means you are looking at it correctly.
+  </p>
+
+  <p>
+    <a href="#">Enter the system</a>
+  </p>
+</div>
+
+<script>
+/*
+  SYSTEM CORE v0.9
+  WARNING: unstable legacy code
+*/
+
+(function () {
+
+  console.log("SYSTEM BOOTING...");
+  console.log("Loading legacy modules...");
+
+  // Stringa cifrata (BASE64 + Vigenère in seguito)
+  const payload = "U0dJTExPIFZJIOKAjCBQT1JUQUxF"; // BASE64 parziale
+
+  // Chiave non valida (verrà corretta con FB)
+  const key = "BROKENKEY";
+
+  function decode(input, key) {
+    // FUNZIONE ROTTA VOLUTAMENTE
+    // manca il ciclo corretto
+    // restituisce output corrotto
+    let output = "";
+    for (let i = 0; i < input.length; i++) {
+      output += String.fromCharCode(
+        input.charCodeAt(i) ^ key.charCodeAt(0)
+      );
+    }
+    return output;
+  }
+
+  try {
+    const decoded = atob(payload);
+    console.log("DECODED STREAM:");
+    console.log(decode(decoded, key));
+  } catch (e) {
+    console.error("SYSTEM ERROR:");
+    console.error("Temporal desync detected.");
+  }
+
+  console.log("Hint: legacy code was never meant to run.");
+  console.log("Hint: fix it outside the browser.");
+
+})();
+</script>
+
+<!--
+  Nothing important is hidden here.
+  Or maybe everything is.
+-->
+
+</body>
+</html>
