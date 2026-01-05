@@ -1,71 +1,99 @@
-<!doctype html>
-<html lang="it">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>MOCKYS // IL VECCHIO INTERNET</title>
-  <link rel="stylesheet" href="./css/style.css">
-</head>
-<body>
-  <div class="wrap">
-    <div class="header">
-      <div class="brand">
-        <div class="dot"></div>
-        <div class="title">MOCKYS // IL VECCHIO INTERNET</div>
-      </div>
-      <div class="status"><span class="blink"></span>connessione instabile</div>
-    </div>
+<script>
+/*
+  SYSTEM CORE v1.0 — LEGACY CRYPTO
+  NOTE: This page is supposed to fail.
+  If you want answers, extract and verify outside the browser.
 
-    <div class="main">
-      <div class="terminal">
-        <div class="scanline"></div>
+  Cipher: Vigenère
+  Alphabet: A-Z0-9
+*/
 
-        <div class="hint">
-          <strong>Pagina 6 — IL VECCHIO INTERNET</strong><br>
-          <span class="muted">Questa pagina non è una pagina.</span>
-        </div>
+(function () {
+  console.clear();
+  console.log("%cSYSTEM BOOTING...", "color:#00ff00");
+  console.log("Loading legacy modules...");
+  console.log("Network: 56k (simulated)");
+  console.log("Status: unstable");
 
-        <hr class="sep">
+  // Payload cifrato (base64 di testo cifrato Vigenère su alfabeto A-Z0-9)
+  const payloadB64 =
+    "OVdWWlo0UyA2SSAtIEpHODdQMlMKMVAgNkFMNDUgMTM0IFMgRFIgV1VJODUuIFMgOTRPIF" +
+    "lWUFFPNjREUC4KNk9CVzdPTDU6IDVaU0RTVThEClBMRzk2WDMyIEVFMkNJOiA4VjFUOVdC";
 
-        <div class="block">
-          <div class="small muted">ISTRUZIONE</div>
-          <div class="small">
-            Se lo stai guardando, stai sbagliando.<br>
-            Se lo stai ascoltando, stai ancora sbagliando.
-          </div>
-        </div>
+  // Chiave volutamente errata (i giocatori devono derivarla da FB + brute/verify)
+  const KEY = "BROKENKEY";
 
-        <div class="block" style="margin-top:14px;">
-          <div class="small muted">PROMEMORIA</div>
-          <div class="small">
-            Il vecchio internet non era “contenuto”.<br>
-            Era <span class="muted">traccia</span>.
-          </div>
-          <div class="small muted" style="margin-top:10px;">
-            Non fidarti del flusso. Estrai. Separa. Verifica.
-          </div>
-        </div>
+  const ALPH = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
-        <div class="block" style="margin-top:14px;">
-          <div class="small muted">VARCO ESTERNO</div>
-          <div class="small">
-            <a class="btn" href="https://www.youtube.com/" target="_blank" rel="noopener">Apri il video</a>
-          </div>
-          <div class="small muted" style="margin-top:10px;">
-            (Sostituisci questo link con l’URL del tuo video YouTube.)
-          </div>
-        </div>
+  function onlyAlphabet(s) {
+    return (s || "")
+      .toUpperCase()
+      .split("")
+      .filter(ch => ALPH.includes(ch))
+      .join("");
+  }
 
-        <div class="block" style="margin-top:14px;">
-          <div class="small muted">NOTA</div>
-          <div class="small">
-            Qui non troverai conferme.<br>
-            Se stai cercando un testo nascosto, stai giocando come vogliono loro.
-          </div>
-        </div>
+  function vigenereDecrypt(cipherText, key) {
+    const k = onlyAlphabet(key);
+    if (!k) return "";
 
-      </div>
-    </div>
-  </div>
-</body>
-</html>
+    let out = "";
+    let ki = 0;
+
+    for (const ch of cipherText) {
+      const up = ch.toUpperCase();
+      if (ALPH.includes(up)) {
+        const c = ALPH.indexOf(up);
+        const kk = ALPH.indexOf(k[ki % k.length]);
+        const p = (c - kk + ALPH.length) % ALPH.length;
+        out += ALPH[p];
+        ki++;
+      } else {
+        // Manteniamo spazi, punti, a-capo ecc. (non consumano la chiave)
+        out += ch;
+      }
+    }
+    return out;
+  }
+
+  function verify(plain) {
+    // Verifica semplice ma efficace: se non c'è struttura, la chiave è sbagliata.
+    return (
+      plain.includes("SIGILLO") &&
+      plain.includes("PORTALE") &&
+      plain.includes("PASSWORD:") &&
+      plain.includes("GENESIS")
+    );
+  }
+
+  function run(keyCandidate) {
+    let cipherText = "";
+    try {
+      cipherText = atob(payloadB64);
+    } catch (e) {
+      console.error("SYSTEM ERROR: payload desync.");
+      return;
+    }
+
+    const plain = vigenereDecrypt(cipherText, keyCandidate);
+
+    if (!verify(plain)) {
+      console.warn("%cTEMPORAL DESYNC DETECTED.", "color:yellow");
+      console.warn("Key rejected.");
+      console.warn("Hint: the old web was never linear.");
+      console.warn("Hint: extract, separate, verify.");
+      return;
+    }
+
+    console.log("%cACCESS GRANTED.", "color:#00ff00");
+    console.log("----");
+    console.log(plain);
+    console.log("----");
+    console.log("%cEND OF STREAM.", "color:#00ff00");
+  }
+
+  // Avvio con chiave sbagliata (comportamento previsto)
+  run(KEY);
+
+})();
+</script>
