@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MOCKYS // GENESIS</title>
+  <link rel="stylesheet" href="./css/style.css">
+  <style>
+    /* piccoli extra, senza toccare il tuo style.css */
+    .inputRow { display:flex; gap:10px; margin-top:10px; flex-wrap:wrap; }
+    .field {
+      flex: 1 1 260px;
+      background: rgba(0,0,0,0.55);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: inherit;
+      padding: 10px 12px;
+      border-radius: 10px;
+      outline: none;
+      font-size: 14px;
+    }
+    .btn {
+      display:inline-block;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.08);
+      color: inherit;
+      text-decoration: none;
+      cursor: pointer;
+      font-size: 14px;
+      user-select: none;
+    }
+    .btn:hover { background: rgba(255,255,255,0.12); }
+    .ok { color: #8CFF8C; }
+    .bad { color: #FF8C8C; }
+    .hidden { display:none; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="header">
+      <div class="brand">
+        <div class="dot"></div>
+        <div class="title">MOCKYS // GENESIS</div>
+      </div>
+      <div class="status"><span class="blink"></span>punto di convergenza</div>
+    </div>
+
+    <div class="main">
+      <div class="terminal">
+        <div class="scanline"></div>
+
+        <div class="hint">
+          <strong>GENESIS</strong><br>
+          <span class="muted">Qui non si entra. Qui si dimostra.</span>
+        </div>
+
+        <hr class="sep">
+
+        <div class="block">
+          <div class="small muted">ACCESSO</div>
+          <div class="small">
+            Inserisci la password ottenuta attraversando il Vecchio Internet.
+          </div>
+
+          <div class="inputRow">
+            <input id="pw" class="field mono" type="password" placeholder="PASSWORD" autocomplete="off" spellcheck="false">
+            <button id="btn" class="btn" type="button">Verifica</button>
+          </div>
+
+          <div id="msg" class="small muted" style="margin-top:10px;"></div>
+        </div>
+
+        <div id="success" class="block hidden" style="margin-top:14px;">
+          <div class="small muted">SBLOCCO</div>
+          <div class="small ok"><span class="mono">ACCESS GRANTED</span></div>
+          <div class="small" style="margin-top:10px;">
+            <span class="mono">SIGILLO VII — GENESI</span><br>
+            Il sistema non crea. Replica.<br>
+            La satira invece genera.
+          </div>
+
+          <div class="small muted" style="margin-top:12px;">
+            Output finale:
+          </div>
+
+          <pre class="mono" style="white-space:pre-wrap; margin:10px 0 0; line-height:1.45; font-size:12.5px;">
+GENESIS: APERTA
+STATO: IRREVERSIBILE
+ISTRUZIONI:
+- conserva questa prova
+- non fidarti del primo risultato
+- la verità è sempre compressa
+          </pre>
+
+          <div class="small muted" style="margin-top:12px;">
+            (Qui puoi mettere la ricompensa reale: link a un drive, un video finale, un form, un canale Discord, ecc.)
+          </div>
+        </div>
+
+        <div class="block" style="margin-top:14px;">
+          <div class="small muted">AVVISO</div>
+          <div class="small">
+            Se sei arrivato fin qui senza attraversare le fasi, la password non esiste per te.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+<script>
+(function(){
+  // Password canonica attuale del Portale (Fase VI)
+  const CANON = "PORTALE42";
+
+  const pw = document.getElementById("pw");
+  const btn = document.getElementById("btn");
+  const msg = document.getElementById("msg");
+  const success = document.getElementById("success");
+
+  function norm(s){
+    return (s || "").trim().toUpperCase();
+  }
+
+  function fail(text){
+    msg.className = "small bad";
+    msg.textContent = text;
+    success.classList.add("hidden");
+  }
+
+  function ok(){
+    msg.className = "small ok";
+    msg.textContent = "Verifica completata.";
+    success.classList.remove("hidden");
+  }
+
+  function check(){
+    const v = norm(pw.value);
+    if (!v) return fail("Inserisci una password.");
+    if (v !== CANON) return fail("Accesso negato.");
+    ok();
+  }
+
+  btn.addEventListener("click", check);
+  pw.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") check();
+  });
+})();
+</script>
+
+</body>
+</html>
