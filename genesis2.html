@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<title>GeoCities Rotta - Mockys Archive</title>
+<style>
+body { background: url('https://example.com/starry-bg.gif'); color: lime; font-fam
+h1 { font-size: 48px; text-shadow: 2px 2px red; animation: blink 1s infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.error-msg { display: none; } /* Nascosto visivamente, ma accessibile via console
+</style>
+</head>
+<body>
+<h1>ERRORE 404: PORTALE SIGILLATO</h1>
+<img src="https://example.com/under-construction.gif" alt="Sito in costruzione">
+<p>Il sistema ha cancellato questa pagina... o no? Prova a scavare nel codice.</p>
+<div class="error-msg" id="hidden-data">CifratoSegreto:Mockys</div> <!-- Red herring v
+<script>
+// Funzione "rotta" che genera errori in console
+function mockysGlitch() {
+try {
+// Errore intenzionale: variabile non definita per simulare bug
+console.log('Inizio scansione portale... ' + undefinedVar);
+} catch (e) {
+// Stampa stringa cifrata Vigenère (esempio: cifrato di "PORTALE" con chia
+console.error('Sistema Rotto - Errore Critico: ' + 'YJKMZRJ'); // Cifrato
+console.warn('Hint: Usa la chiave dal gruppo ombra. Varianti possibili: OB
+}
+// Loop "rotto" che stampa pezzi cifrati multipli per brute-force
+const cipherPieces = ['YJKM', 'ZRJ', 'ABCD', 'EFGH']; // Pezzi da combinare/br
+for (let i = 0; i < cipherPieces.length; i++) {
+console.log('Pezzo ' + i + ': ' + cipherPieces[i]);
+}
+// Funzione nascosta: se fixata esternamente, rivela parte della password
+function revealPortal(key) {
+if (key === 'OBLIOHASH') { // Chiave derivata da brute
+return atob('UE9SVEFMRTogT0xEV0VCNDI='); // Base64 di "PORTALE: OLDWEB
+} else {
+throw new Error('Accesso Negato - Chiave Errata. Riprova con varianti.
+}
+}
+// Chiama funzione con chiave sbagliata per generare errore iniziale
+revealPortal('WRONG');
+}
+// Esegui il glitch all load
+window.onload = mockysGlitch;
+</script>
+</body>
+</html>
+Spiegazione:
