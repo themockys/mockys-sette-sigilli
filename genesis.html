@@ -56,34 +56,43 @@
         const correctSeq = 'SPECCHIO CENSURA VERITÀ PORTALE GENESI RITMO';
         let attempts = parseInt(localStorage.getItem('attempts') || 0);
         let cooldown = localStorage.getItem('cooldown');
-        if (cooldown && Date.now() < cooldown) {
+        if (cooldown && Date.now() < parseInt(cooldown)) {
             alert('Cooldown attivo - riprova tra 24h.');
         }
 
-        document.getElementById('password-form').addEventListener('submit', e => {
+        document.getElementById('password-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            if (document.getElementById('pass').value.toUpperCase() === correctPass) {
+            const inputPass = document.getElementById('pass').value.toUpperCase();
+            console.log('Password inserita:', inputPass); // Debug: Controlla console F12
+            if (inputPass === correctPass) {
+                console.log('Password corretta - sblocco poesia');
                 document.getElementById('poesia').style.display = 'block';
                 document.getElementById('cryptex-form').style.display = 'block';
-                e.target.style.display = 'none';
+                this.style.display = 'none';
             } else {
                 alert('Password Errata.');
+                console.log('Password errata');
             }
         });
 
-        document.getElementById('cryptex-form').addEventListener('submit', e => {
+        document.getElementById('cryptex-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            const input = document.getElementById('seq').value.toUpperCase();
-            if (input === correctSeq && attempts < 50) {
+            const inputSeq = document.getElementById('seq').value.toUpperCase();
+            console.log('Sequenza inserita:', inputSeq); // Debug
+            if (inputSeq === correctSeq && attempts < 50) {
                 document.getElementById('omega-hint').style.display = 'block';
+                console.log('Sequenza corretta');
             } else {
                 attempts++;
                 localStorage.setItem('attempts', attempts);
                 if (attempts >= 50) {
-                    localStorage.setItem('cooldown', Date.now() + 86400000); // 24h
+                    const newCooldown = Date.now() + 86400000; // 24h
+                    localStorage.setItem('cooldown', newCooldown);
                     alert('Troppi tentativi. Cooldown 24h.');
+                    console.log('Cooldown attivato');
                 } else {
-                    alert('Sequenza Errata. Riprova (tentativi rimasti: ' + (50 - attempts) + ').');
+                    alert('Sequenza Errata. Tentativi rimasti: ' + (50 - attempts));
+                    console.log('Sequenza errata');
                 }
             }
         });
