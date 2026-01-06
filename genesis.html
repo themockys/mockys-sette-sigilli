@@ -1,176 +1,92 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>MOCKYS // GENESIS</title>
-  <link rel="stylesheet" href="./css/style.css">
-  <style>
-    .inputRow { display:flex; gap:10px; margin-top:10px; flex-wrap:wrap; }
-    .field {
-      flex: 1 1 260px;
-      background: rgba(0,0,0,0.55);
-      border: 1px solid rgba(255,255,255,0.15);
-      color: inherit;
-      padding: 10px 12px;
-      border-radius: 10px;
-      outline: none;
-      font-size: 14px;
-    }
-    .btn {
-      display:inline-block;
-      padding: 10px 14px;
-      border-radius: 10px;
-      border: 1px solid rgba(255,255,255,0.18);
-      background: rgba(255,255,255,0.08);
-      color: inherit;
-      text-decoration: none;
-      cursor: pointer;
-      font-size: 14px;
-      user-select: none;
-    }
-    .btn:hover { background: rgba(255,255,255,0.12); }
-    .ok { color: #8CFF8C; }
-    .bad { color: #FF8C8C; }
-    .hidden { display:none; }
-    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
-    .twoCol { display:grid; grid-template-columns: 1fr; gap: 12px; margin-top: 10px; }
-    @media (min-width: 720px) { .twoCol { grid-template-columns: 1fr 1fr; } }
-  </style>
+    <title>Mockys - Pagina Genesis</title>
+    <style>
+        body { background: #000; color: #0f0; font-family: 'Courier New', monospace; text-align: center; padding: 50px; }
+        #password-form, #cryptex-form { margin: 20px; }
+        input { background: #000; color: #0f0; border: 1px solid #0f0; padding: 10px; width: 300px; }
+        button { background: #0f0; color: #000; border: none; padding: 10px 20px; cursor: pointer; }
+        #poesia { display: none; white-space: pre; font-size: 18px; margin: 20px; border: 1px dashed #0f0; padding: 20px; }
+        #omega-hint { display: none; color: #f00; }
+    </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="header">
-      <div class="brand">
-        <div class="dot"></div>
-        <div class="title">MOCKYS // GENESIS</div>
-      </div>
-      <div class="status"><span class="blink"></span>punto di convergenza</div>
+    <h1>Pagina Genesis - Sblocca il Cryptex</h1>
+    <form id="password-form">
+        <p>Inserisci la PASSWORD FINALE dal Vecchio Internet:</p>
+        <input type="text" id="pass" placeholder="es. OLDWEB42">
+        <button type="submit">Sblocca</button>
+    </form>
+    
+    <div id="poesia">
+        Sotto lo Specchio infranto del Sistema,
+        Cospira la Censura nel buio eterno,
+        Verità emerge dal Ritmo spezzato,
+        Ritmo che pulsa nel Portale antico,
+        Portale spalanca la Genesi oscura,
+        Genesi rinasce dalla Verità nuda.
+
+        Ma rifletti: il primo è l'inizio negato (cross Instagram),
+        Il secondo soffoca il grido (YouTube),
+        Terzo batte come cuore glitchato (TikTok),
+        Quarto illumina l'abisso (X),
+        Quinto riflette l'infinito (Instagram? No, wait),
+        Sesto apre l'eterno oblio (FB).
+
+        Conta le sillabe divine: 7-3-6-8-4-5 (matcha lunghezza sigilli).
+        Acrostico sussurra: S-C-V-R-P-G.
+        Ordina il caos, o il sistema vince.
     </div>
-
-    <div class="main">
-      <div class="terminal">
-        <div class="scanline"></div>
-
-        <div class="hint">
-          <strong>GENESIS</strong><br>
-          <span class="muted">Qui non si entra. Qui si dimostra.</span>
-        </div>
-
-        <hr class="sep">
-
-        <div class="block">
-          <div class="small muted">ACCESSO</div>
-          <div class="small">
-            Inserisci la password ottenuta attraversando il Vecchio Internet.<br>
-            Poi conferma di aver visto ciò che non doveva esistere.
-          </div>
-
-          <div class="twoCol">
-            <div>
-              <div class="small muted" style="margin-top:10px;">PASSWORD</div>
-              <input id="pw" class="field mono" type="password" placeholder="PASSWORD" autocomplete="off" spellcheck="false">
-            </div>
-
-            <div>
-              <div class="small muted" style="margin-top:10px;">VERIFICA</div>
-              <input id="vfy" class="field mono" type="text" placeholder="?" autocomplete="off" spellcheck="false">
-            </div>
-          </div>
-
-          <div class="inputRow">
-            <button id="btn" class="btn" type="button">Verifica</button>
-          </div>
-
-          <div id="msg" class="small muted" style="margin-top:10px;"></div>
-        </div>
-
-        <div id="success" class="block hidden" style="margin-top:14px;">
-          <div class="small muted">SBLOCCO</div>
-          <div class="small ok"><span class="mono">ACCESS GRANTED</span></div>
-
-          <div class="small" style="margin-top:10px;">
-            <span class="mono">SIGILLO VII — GENESI</span><br>
-            Il sistema non crea. Replica.<br>
-            La satira invece genera.
-          </div>
-
-          <div class="small muted" style="margin-top:12px;">Output finale:</div>
-
-          <pre class="mono" style="white-space:pre-wrap; margin:10px 0 0; line-height:1.45; font-size:12.5px;">
-GENESIS: APERTA
-STATO: IRREVERSIBILE
-ISTRUZIONI:
-- conserva questa prova
-- non fidarti del primo risultato
-- la verità è sempre compressa
-          </pre>
-
-          <div class="small muted" style="margin-top:12px;">
-            (Qui inserisci la ricompensa reale: link finale, video, form, Discord, ecc.)
-          </div>
-        </div>
-
-        <div class="block" style="margin-top:14px;">
-          <div class="small muted">AVVISO</div>
-          <div class="small">
-            Se sei arrivato fin qui senza attraversare le fasi, la password non esiste per te.
-          </div>
-        </div>
-
-      </div>
+    
+    <form id="cryptex-form" style="display:none;">
+        <p>Inserisci la sequenza corretta dei 6 Sigilli (spaziati, maiuscolo):</p>
+        <input type="text" id="seq" placeholder="es. SIG1 SIG2 SIG3 SIG4 SIG5 SIG6">
+        <button type="submit">Allinea Cryptex</button>
+    </form>
+    
+    <div id="omega-hint">
+        Cryptex Aperto! Ora l'Enigma Omega: combina lore Mockys + ricerca fittizia + crittografia al contrario.
+        Calcola numero simbolico da essenze sigilli in ordine (lettere: SPECCHIO=8, etc.), *3 (ritmo) -6 (portali) =99.
+        Converti in parola (A=1), inverti per STRINGA RIVENDICAZIONE.
     </div>
-  </div>
+    
+    <script>
+        const correctPass = 'OLDWEB42';
+        const correctSeq = 'SPECCHIO CENSURA VERITÀ PORTALE GENESI RITMO';
+        let attempts = parseInt(localStorage.getItem('attempts') || 0);
+        let cooldown = localStorage.getItem('cooldown');
+        if (cooldown && Date.now() < cooldown) {
+            alert('Cooldown attivo - riprova tra 24h.');
+        }
 
-<script>
-(function(){
-  // Password canonica del Portale (Fase VI)
-  const CANON_PW = "PORTALE42";
+        document.getElementById('password-form').addEventListener('submit', e => {
+            e.preventDefault();
+            if (document.getElementById('pass').value.toUpperCase() === correctPass) {
+                document.getElementById('poesia').style.display = 'block';
+                document.getElementById('cryptex-form').style.display = 'block';
+                e.target.style.display = 'none';
+            } else {
+                alert('Password Errata.');
+            }
+        });
 
-  // Verifica esperienza Fase V: la quinta immagine era "muta"
-  // Accettiamo: "5" oppure "QUINTA"
-  const CANON_VFY = new Set(["5", "QUINTA"]);
-
-  const pw = document.getElementById("pw");
-  const vfy = document.getElementById("vfy");
-  const btn = document.getElementById("btn");
-  const msg = document.getElementById("msg");
-  const success = document.getElementById("success");
-
-  function norm(s){
-    return (s || "").trim().toUpperCase();
-  }
-
-  function fail(text){
-    msg.className = "small bad";
-    msg.textContent = text;
-    success.classList.add("hidden");
-  }
-
-  function ok(){
-    msg.className = "small ok";
-    msg.textContent = "Verifica completata.";
-    success.classList.remove("hidden");
-  }
-
-  function check(){
-    const p = norm(pw.value);
-    const v = norm(vfy.value);
-
-    if (!p) return fail("Inserisci la password.");
-    if (!v) return fail("Inserisci la verifica.");
-
-    if (p !== CANON_PW) return fail("Accesso negato.");
-    if (!CANON_VFY.has(v)) return fail("Verifica fallita.");
-
-    ok();
-  }
-
-  btn.addEventListener("click", check);
-  pw.addEventListener("keydown", (e) => { if (e.key === "Enter") check(); });
-  vfy.addEventListener("keydown", (e) => { if (e.key === "Enter") check(); });
-})();
-</script>
-
+        document.getElementById('cryptex-form').addEventListener('submit', e => {
+            e.preventDefault();
+            const input = document.getElementById('seq').value.toUpperCase();
+            if (input === correctSeq && attempts < 50) {
+                document.getElementById('omega-hint').style.display = 'block';
+            } else {
+                attempts++;
+                localStorage.setItem('attempts', attempts);
+                if (attempts >= 50) {
+                    localStorage.setItem('cooldown', Date.now() + 86400000); // 24h
+                    alert('Troppi tentativi. Cooldown 24h.');
+                } else {
+                    alert('Sequenza Errata. Riprova (tentativi rimasti: ' + (50 - attempts) + ').');
+                }
+            }
+        });
+    </script>
 </body>
 </html>
