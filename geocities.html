@@ -61,103 +61,40 @@
   <div class="error-msg" id="hidden-data">CifratoSegreto:Mockys</div>
 
   <!-- ✅ QUI IL TUO SCRIPT -->
-  <script>
-  /*
-    SYSTEM CORE v1.0 — LEGACY CRYPTO
-    NOTE: This page is supposed to fail.
-    If you want answers, extract and verify outside the browser.
+    <script>
+// Funzione "rotta" che genera errori in console
+function mockysGlitch() {
+  try {
+    // Errore intenzionale: variabile non definita per simulare bug
+    console.log('Inizio scansione portale... ' + undefinedVar);
+  } catch (e) {
+    // Stampa stringa cifrata Vigenère (esempio: cifrato di "PORTALE" con chiave "OBLIO")
+    console.error('Sistema Rotto - Errore Critico: ' + 'YJKMZRJ'); // Cifrato
+    console.warn('Hint: Usa la chiave dal gruppo ombra. Varianti possibili: OBLIO...');
+  }
 
-    Cipher: Vigenère
-    Alphabet: A-Z0-9
-  */
+  // Loop "rotto" che stampa pezzi cifrati multipli per brute-force
+  const cipherPieces = ['YJKM', 'ZRJ', 'ABCD', 'EFGH']; // Pezzi da combinare/brute
+  for (let i = 0; i < cipherPieces.length; i++) {
+    console.log('Pezzo ' + i + ': ' + cipherPieces[i]);
+  }
 
-  (function () {
-    console.clear();
-    console.log("%cSYSTEM BOOTING...", "color:#00ff00");
-    console.log("Loading legacy modules...");
-    console.log("Network: 56k (simulated)");
-    console.log("Status: unstable");
-
-    // Payload cifrato (base64 di testo cifrato Vigenère su alfabeto A-Z0-9)
-    const payloadB64 = "N1dYMUxXUyBQQSDigJQgNDI4Q0FXSQpKMjc2RDdSTzogVElKOE8yWDREClRMRzc2WjVPIDZFTDQzOiBVVjZFM01NCg==";
-
-    // Chiave volutamente errata (i giocatori devono derivarla da FB + brute/verify)
-    const KEY = "BROKENKEY";
-
-    const ALPH = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-
-    function onlyAlphabet(s) {
-      return (s || "")
-        .toUpperCase()
-        .split("")
-        .filter(ch => ALPH.includes(ch))
-        .join("");
+  // Funzione nascosta: se fixata esternamente, rivela parte della password
+  function revealPortal(key) {
+    if (key === 'OBLIOHASH') { // Chiave derivata da brute
+      return atob('UE9SVEFMRTogT0xEV0VCNDI='); // Base64 di "PORTALE: OLDWEB42"
+    } else {
+      throw new Error('Accesso Negato - Chiave Errata. Riprova con varianti.');
     }
+  }
 
-    function vigenereDecrypt(cipherText, key) {
-      const k = onlyAlphabet(key);
-      if (!k) return "";
+  // Chiama funzione con chiave sbagliata per generare errore iniziale
+  revealPortal('WRONG');
+}
 
-      let out = "";
-      let ki = 0;
-
-      for (const ch of cipherText) {
-        const up = ch.toUpperCase();
-        if (ALPH.includes(up)) {
-          const c = ALPH.indexOf(up);
-          const kk = ALPH.indexOf(k[ki % k.length]);
-          const p = (c - kk + ALPH.length) % ALPH.length;
-          out += ALPH[p];
-          ki++;
-        } else {
-          // Manteniamo spazi, punti, a-capo ecc. (non consumano la chiave)
-          out += ch;
-        }
-      }
-      return out;
-    }
-
-    function verify(plain) {
-      // Verifica semplice ma efficace: se non c'è struttura, la chiave è sbagliata.
-      return (
-        plain.includes("SIGILLO") &&
-        plain.includes("PORTALE") &&
-        plain.includes("PASSWORD:") &&
-        plain.includes("GENESIS")
-      );
-    }
-
-    function run(keyCandidate) {
-      let cipherText = "";
-      try {
-        cipherText = atob(payloadB64);
-      } catch (e) {
-        console.error("SYSTEM ERROR: payload desync.");
-        return;
-      }
-
-      const plain = vigenereDecrypt(cipherText, keyCandidate);
-
-      if (!verify(plain)) {
-        console.warn("%cTEMPORAL DESYNC DETECTED.", "color:yellow");
-        console.warn("Key rejected.");
-        console.warn("Hint: the old web was never linear.");
-        console.warn("Hint: extract, separate, verify.");
-        return;
-      }
-
-      console.log("%cACCESS GRANTED.", "color:#00ff00");
-      console.log("----");
-      console.log(plain);
-      console.log("----");
-      console.log("%cEND OF STREAM.", "color:#00ff00");
-    }
-
-    // Avvio con chiave sbagliata (comportamento previsto)
-    run(KEY);
-
-  })();
-  </script>
+// Esegui il glitch al load
+window.onload = mockysGlitch;
+</script>
 
 </body>
 </html>
