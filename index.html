@@ -3,108 +3,54 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>MOCKYS // I SETTE SIGILLI</title>
+  <title>MOCKYS</title>
+
   <link rel="stylesheet" href="./css/style.css">
+
   <style>
-    /* Solo per la homepage */
+    /* HOMEPAGE OVERRIDE */
+
+    body{
+      background:#000 url("./assets/img/bg-home.png") no-repeat center center fixed;
+      background-size:cover;
+    }
+
     .home{
-      min-height: calc(100vh - 48px);
+      min-height:100vh;
       display:flex;
-      align-items:center;
-      justify-content:center;
-      padding: 40px 0;
+      justify-content:flex-start;
+      align-items:flex-start;
+      padding-top:48px;
     }
-    .homeCard{
-      width: min(820px, 92vw);
-      text-align:center;
-      padding: 26px 18px;
-      border: 1px solid rgba(102,255,204,.16);
-      background: rgba(12,18,26,.72);
-      border-radius: 16px;
-      box-shadow: var(--shadow);
-      position: relative;
-      overflow: hidden;
-    }
-    .bootline{
-      font-size:12px;
-      opacity:.8;
-      line-height:1.6;
-      white-space:pre-wrap;
-      margin-top: 12px;
-      text-align:left;
-      max-width: 560px;
-      margin-left:auto;
-      margin-right:auto;
-    }
-    .startRow{
+
+    .home-logo{
+      width:100%;
       display:flex;
-      gap:10px;
       justify-content:center;
-      flex-wrap:wrap;
-      margin-top: 16px;
+    }
+
+    .home-logo img{
+      width:auto;
+      height:140px;          /* grande, impattante */
+      max-width:90vw;
+      filter:
+        drop-shadow(0 0 24px rgba(0,0,0,.75))
+        drop-shadow(0 0 12px rgba(102,255,204,.25));
+    }
+
+    @media (max-width:700px){
+      .home-logo img{
+        height:96px;
+      }
     }
   </style>
 </head>
 
 <body>
-  <div class="wrap">
-    <div class="header">
-      <div class="brand">
-        <img src="./assets/img/logo-mockys.png" alt="MOCKYS" class="logo">
-        <div class="titles">
-          <div class="project">MOCKYS</div>
-          <div class="subtitle">I SETTE SIGILLI</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="home">
-      <div class="homeCard">
-        <div class="hint">
-          <strong>HOMEPAGE</strong><br>
-          <span class="muted">Questo non è un sito. È un varco.</span>
-        </div>
-
-        <hr class="sep">
-
-        <div class="block" style="margin-top:0;">
-          <div class="small muted">AVVIO</div>
-          <div class="small">
-            Premi avvio quando sei pronto.<br>
-            <span class="muted">Consiglio: usa cuffie. Non fidarti del primo risultato.</span>
-          </div>
-
-          <div class="bootline" id="boot"></div>
-
-          <div class="startRow">
-            <a class="btn" href="./first.html">AVVIA → PAGINA 1</a>
-            <a class="btn danger" href="#" onclick="return false;">ANNULLA</a>
-          </div>
-        </div>
-      </div>
+  <div class="home">
+    <div class="home-logo">
+      <img src="./assets/img/logo-mockys.png" alt="MOCKYS">
     </div>
   </div>
-
-  <script>
-    // Piccolo “boot” testuale (solo atmosfera)
-    (function(){
-      const el = document.getElementById('boot');
-      const lines = [
-        "MOCKYS/BOOT v0.7",
-        "Loading modules...",
-        "Mounting SIGILLI...",
-        "Checking integrity... OK",
-        "Warning: truth may be compressed.",
-        "Ready."
-      ];
-      let i = 0;
-      function tick(){
-        if(i >= lines.length) return;
-        el.textContent += (i? "\n":"") + lines[i++];
-        setTimeout(tick, 260);
-      }
-      tick();
-    })();
-  </script>
 </body>
 </html>
