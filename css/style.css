@@ -16,7 +16,7 @@ html,body{height:100%}
 body{
   margin:0;
   /* ✅ nuovo sfondo immagine */
-  background:#000 url("../assets/img/bg.jpg") no-repeat center center fixed;
+  background:#000 url("../assets/img/bg.png") no-repeat center center fixed;
   background-size:cover;
 
   color:var(--fg);
