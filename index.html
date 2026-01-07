@@ -8,11 +8,20 @@
   <link rel="stylesheet" href="./css/style.css">
 
   <style>
-    /* HOMEPAGE OVERRIDE */
+    /* ==========================
+       HOMEPAGE – OVERRIDE TOTAL
+       ========================== */
 
+    /* Sfondo più luminoso */
     body{
       background:#000 url("./assets/img/bg-home.png") no-repeat center center fixed;
       background-size:cover;
+      filter: brightness(1.25) contrast(1.1);
+    }
+
+    /* Rimuove l’overlay scuro SOLO in homepage */
+    body::before{
+      display:none;
     }
 
     .home{
@@ -20,7 +29,7 @@
       display:flex;
       justify-content:flex-start;
       align-items:flex-start;
-      padding-top:48px;
+      padding-top:64px;
     }
 
     .home-logo{
@@ -29,18 +38,23 @@
       justify-content:center;
     }
 
+    /* LOGO ENORME */
     .home-logo img{
       width:auto;
-      height:140px;          /* grande, impattante */
-      max-width:90vw;
+      height:240px;        /* 🔺 molto grande */
+      max-width:92vw;
       filter:
-        drop-shadow(0 0 24px rgba(0,0,0,.75))
-        drop-shadow(0 0 12px rgba(102,255,204,.25));
+        drop-shadow(0 0 40px rgba(0,0,0,.85))
+        drop-shadow(0 0 18px rgba(102,255,204,.35));
     }
 
+    /* Mobile */
     @media (max-width:700px){
+      .home{
+        padding-top:48px;
+      }
       .home-logo img{
-        height:96px;
+        height:150px;
       }
     }
   </style>
