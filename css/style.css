@@ -74,9 +74,10 @@ a:hover{text-decoration:underline}
 
 /* ✅ logo */
 .logo{
-  height:44px;
+  height:64px;      /* ← dimensione consigliata */
   width:auto;
 }
+
 
 /* ✅ blocco titoli */
 .titles{
