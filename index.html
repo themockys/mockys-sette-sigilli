@@ -1,15 +1,45 @@
 <!DOCTYPE html>
 <html lang="it">
-<head><title>Mockys Home</title></head>
-<body style="background:#000;color:#0f0;font-family:'Courier New';text-align:center;">
-    <h1>Benvenuti in Mockys</h1>
-    <img src="mockys-logo.jpg" usemap="#glitchmap">
-    <map name="glitchmap">
-        <area shape="circle" coords="700,500,50" href="#" onclick="revealSigillo(); return false;">
-    </map>
+<head>
+    <title>Mockys Home - La Via della Verità</title>
+    <style>
+        body { background-color: #000; color: #0f0; font-family: 'Courier New', monospace; text-align: center; padding: 50px; }
+        h1 { font-size: 48px; text-shadow: 0 0 10px #0f0; }
+        .glitch-button {
+            position: relative;
+            display: inline-block;
+            margin: 50px;
+            padding: 20px;
+            border: 2px dashed #f00;
+            cursor: pointer;
+            font-size: 24px;
+            color: #f00;
+            animation: glitch 2s infinite;
+        }
+        @keyframes glitch {
+            0% { text-shadow: 0 0 10px #f00; }
+            50% { text-shadow: 2px 2px #0f0, -2px -2px #f00; }
+            100% { text-shadow: 0 0 10px #f00; }
+        }
+        .glitch-button:hover { background: rgba(255,0,0,0.1); }
+    </style>
+</head>
+<body>
+    <h1>Benvenuti nel Progetto Satirico MOCKYS</h1>
+    <p>Il sistema nasconde glitch... cerca il pulsante proibito qui sotto.</p>
+    
+    <!-- Pulsante cliccabile invece di image map (più affidabile) -->
+    <div class="glitch-button" onclick="revealSigillo()">
+        PULSANTE PROIBITO - CLICCA SE OSA
+    </div>
+    
+    <!-- Placeholder per logo futuro (sostituisci con img reale) -->
+    <p>(Qui andrà il logo con spilla – per ora usa il pulsante sopra)</p>
+    
     <script>
         function revealSigillo() {
-            alert('Glitch Rivelato! SIGILLO 1: GENESI\nProsegui su YouTube: [link video YT per Sigillo II]');
+            console.log('Click rilevato - Glitch attivato!'); // Debug in console F12
+            alert('Glitch Rivelato!\nSIGILLO 1: GENESI\n\nProsegui su YouTube per il prossimo indizio: cerca il video "L\'Oscuramento" sul canale @MockysOfficial.');
         }
     </script>
 </body>
