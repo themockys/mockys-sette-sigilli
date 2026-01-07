@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MOCKYS // Via della Verità</title>
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+  <div class="wrap">
+   <div class="header">
+  <div class="brand">
+    <img src="./assets/img/logo-mockys.png" alt="MOCKYS" class="logo">
+    <div class="titles">
+      <div class="project">MOCKYS</div>
+      <div class="subtitle">I SETTE SIGILLI</div>
+    </div>
+  </div>
+</div>
+
+
+    <div class="main">
+      <div class="terminal">
+        <div class="scanline"></div>
+
+        <div class="hint">
+          Benvenuto. Questa è la <strong>Via della Verità</strong>.<br>
+          <span class="muted">Se tutto sembra normale… è perché non stai guardando nel punto giusto.</span>
+        </div>
+
+        <hr class="sep">
+
+        <div class="block">
+          <div class="small muted">LOG SISTEMA</div>
+          <div class="small">[00:01] handshake ok</div>
+          <div class="small">[00:02] integrity check… <span style="color:var(--danger)">FAIL</span></div>
+          <div class="small">[00:03] patch non autorizzata: <span style="color:var(--accent)">GLITCH</span></div>
+        </div>
+
+        <!-- Hotspot: invisibile ma cliccabile (sposta dove vuoi) -->
+        <button id="hotspot"
+          aria-label="hotspot"
+          style="
+            position:absolute;
+            top: 245px;
+            left: calc(50% + 210px);
+            width: 26px;
+            height: 26px;
+            opacity: 0.02;
+            cursor: pointer;
+            border-radius: 999px;
+            border: 1px solid rgba(102,255,204,.2);
+            background: rgba(102,255,204,.08);
+          ">
+        </button>
+
+        <div class="block">
+          <div class="small muted">SUGGERIMENTO</div>
+          <div class="small">Cerca un punto che “non dovrebbe essere cliccabile”.</div>
+        </div>
+
+        <div id="sigillo1" style="margin-top:16px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="modal-forbidden" class="modal" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="modal-title">ACCESSO NON AUTORIZZATO</div>
+      <div class="small muted" style="margin-top:8px;">
+        Questo pulsante non esiste. Se lo vedi, sei già fuori dal percorso ufficiale.
+      </div>
+      <div class="modal-actions">
+        <button class="btn" id="closeModal">Chiudi</button>
+        <button class="btn danger" id="btnForbidden">PROIBITO</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="./js/app.js"></script>
+</body>
+</html>
