@@ -40,7 +40,7 @@ function closeModal(id) {
             Apri il video su YouTube
           </a>
           <div class="small muted" style="margin-top:6px">
-            (Recupera la trascrizione del video)
+            (Recupera la trascrizione dal video)
           </div>
         </div>
 
