@@ -1,46 +1,80 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="it">
 <head>
-    <title>Mockys Home - La Via della Verità</title>
-    <style>
-        body { background-color: #000; color: #0f0; font-family: 'Courier New', monospace; text-align: center; padding: 50px; }
-        h1 { font-size: 48px; text-shadow: 0 0 10px #0f0; }
-        .glitch-button {
-            position: relative;
-            display: inline-block;
-            margin: 50px;
-            padding: 20px;
-            border: 2px dashed #f00;
-            cursor: pointer;
-            font-size: 24px;
-            color: #f00;
-            animation: glitch 2s infinite;
-        }
-        @keyframes glitch {
-            0% { text-shadow: 0 0 10px #f00; }
-            50% { text-shadow: 2px 2px #0f0, -2px -2px #f00; }
-            100% { text-shadow: 0 0 10px #f00; }
-        }
-        .glitch-button:hover { background: rgba(255,0,0,0.1); }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MOCKYS // Via della Verità</title>
+  <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
-    <h1>Benvenuti nel Progetto Satirico MOCKYS</h1>
-    <p>Il sistema nasconde glitch... cerca il pulsante proibito qui sotto.</p>
-    
-    <!-- Pulsante cliccabile invece di image map (più affidabile) -->
-    <div class="glitch-button" onclick="revealSigillo()">
-        PULSANTE PROIBITO - CLICCA SE OSA
+  <div class="wrap">
+    <div class="header">
+      <div class="brand">
+        <div class="dot"></div>
+        <div class="title">MOCKYS // SISTEMA</div>
+      </div>
+      <div class="status"><span class="blink"></span>anomalia rilevata</div>
     </div>
-    
-    <!-- Placeholder per logo futuro (sostituisci con img reale) -->
-    <p>(Qui andrà il logo con spilla – per ora usa il pulsante sopra)</p>
-    
-    <script>
-        function revealSigillo() {
-            console.log('Click rilevato - Glitch attivato!'); // Debug in console F12
-            alert('Glitch Rivelato!\nSIGILLO 1: GENESI\n\nProsegui su YouTube per il prossimo indizio: cerca il video "L\'Oscuramento" sul canale @MockysOfficial.');
-        }
-    </script>
+
+    <div class="main">
+      <div class="terminal">
+        <div class="scanline"></div>
+
+        <div class="hint">
+          Benvenuto. Questa è la <strong>Via della Verità</strong>.<br>
+          <span class="muted">Se tutto sembra normale… è perché non stai guardando nel punto giusto.</span>
+        </div>
+
+        <hr class="sep">
+
+        <div class="block">
+          <div class="small muted">LOG SISTEMA</div>
+          <div class="small">[00:01] handshake ok</div>
+          <div class="small">[00:02] integrity check… <span style="color:var(--danger)">FAIL</span></div>
+          <div class="small">[00:03] patch non autorizzata: <span style="color:var(--accent)">GLITCH</span></div>
+        </div>
+
+        <!-- Hotspot: invisibile ma cliccabile (sposta dove vuoi) -->
+        <button id="hotspot"
+          aria-label="hotspot"
+          style="
+            position:absolute;
+            top: 245px;
+            left: calc(50% + 210px);
+            width: 26px;
+            height: 26px;
+            opacity: 0.02;
+            cursor: pointer;
+            border-radius: 999px;
+            border: 1px solid rgba(102,255,204,.2);
+            background: rgba(102,255,204,.08);
+          ">
+        </button>
+
+        <div class="block">
+          <div class="small muted">SUGGERIMENTO</div>
+          <div class="small">Cerca un punto che “non dovrebbe essere cliccabile”.</div>
+        </div>
+
+        <div id="sigillo1" style="margin-top:16px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="modal-forbidden" class="modal" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="modal-title">ACCESSO NON AUTORIZZATO</div>
+      <div class="small muted" style="margin-top:8px;">
+        Questo pulsante non esiste. Se lo vedi, sei già fuori dal percorso ufficiale.
+      </div>
+      <div class="modal-actions">
+        <button class="btn" id="closeModal">Chiudi</button>
+        <button class="btn danger" id="btnForbidden">PROIBITO</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="./js/app.js"></script>
 </body>
 </html>
