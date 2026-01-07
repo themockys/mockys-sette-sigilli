@@ -21,7 +21,7 @@ function closeModal(id){ const m = $(id); if(m){ m.classList.remove('open'); } }
           <div><strong>SIGILLO I — GENESI</strong></div>
           <div class="small muted">PROSSIMO VARCO: YouTube</div>
           <hr class="sep" />
-          <div class="hint">“La GENESI è stata censurata. Cercala dove la censura sembra intrattenimento.”</div>
+          <div class="hint">“La GENESI è stata oscurata. Cercala dove l'oscuro sembra intrattenimento.”</div>
           <div style="margin-top:12px">
             <a class="btn" href="./p2.html">Procedi → Pagina 2</a>
           </div>
