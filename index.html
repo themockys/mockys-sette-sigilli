@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="it">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -8,63 +8,213 @@
   <link rel="stylesheet" href="./css/style.css">
 
   <style>
-    /* ==========================
-       HOMEPAGE – OVERRIDE TOTAL
-       ========================== */
-
-    /* Sfondo più luminoso */
-    body{
-      background:#000 url("./assets/img/bg.png") no-repeat center center fixed;
-      background-size:cover;
-      filter: brightness(1.25) contrast(1.1);
-    }
-
-    /* Rimuove l’overlay scuro SOLO in homepage */
-    body::before{
-      display:none;
-    }
-
+    /* Homepage only */
     .home{
       min-height:100vh;
       display:flex;
       justify-content:flex-start;
       align-items:flex-start;
-      padding-top:0px; /* ⬆️ più in alto (prima 64px) */
+      padding-top:28px;
+      position:relative;
+      z-index:1; /* sopra overlay globale */
+    }
+
+    .home-inner{
+      width:100%;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:18px;
     }
 
     .home-logo{
-      width:100%;
       display:flex;
       justify-content:center;
+      width:100%;
     }
 
-    /* LOGO ANCORA PIÙ ENORME */
     .home-logo img{
       width:auto;
-      height:360px;        /* 🔺 più grande (prima 240px) */
+      height:320px;
       max-width:94vw;
       filter:
         drop-shadow(0 0 48px rgba(0,0,0,.9))
         drop-shadow(0 0 24px rgba(102,255,204,.4));
+      transform: translateY(-18px);
     }
 
-    /* Mobile */
+    /* Titolo lingua (PNG trasparente) */
+    .home-title{
+      margin-top:-10px;
+      display:flex;
+      justify-content:center;
+      width:100%;
+    }
+
+    .home-title img{
+      width:auto;
+      height:96px;
+      max-width:92vw;
+      filter:
+        drop-shadow(0 0 22px rgba(0,0,0,.9))
+        drop-shadow(0 0 14px rgba(102,255,204,.25));
+    }
+
+    /* Pannello lingua */
+    .lang-panel{
+      width:min(720px, 92vw);
+      border:1px solid rgba(102,255,204,.16);
+      background:rgba(12,18,26,.72);
+      border-radius:16px;
+      box-shadow:var(--shadow);
+      padding:14px;
+    }
+
+    .lang-row{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+      justify-content:space-between;
+    }
+
+    .lang-left{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+
+    .lang-right{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+
+    .select{
+      font-family:var(--mono);
+      background:rgba(0,0,0,0.55);
+      border:1px solid rgba(255,255,255,0.15);
+      color:var(--fg);
+      padding:10px 12px;
+      border-radius:10px;
+      outline:none;
+      font-size:14px;
+      min-width: 220px;
+    }
+
+    .mini{
+      font-size:12px;
+      opacity:.78;
+    }
+
     @media (max-width:700px){
-      .home{
-        padding-top:24px;
-      }
-      .home-logo img{
-        height:240px;      /* più grande (prima 150px) */
-      }
+      .home{ padding-top:18px; }
+      .home-logo img{ height:190px; transform: translateY(-10px); }
+      .home-title img{ height:68px; }
+      .select{ min-width: 180px; }
     }
   </style>
 </head>
 
 <body>
   <div class="home">
-    <div class="home-logo">
-      <img src="./assets/img/logo-mockys.png" alt="MOCKYS">
+    <div class="home-inner">
+
+      <!-- LOGO MOCKYS -->
+      <div class="home-logo">
+        <img src="./assets/img/logo-mockys.png" alt="MOCKYS">
+      </div>
+
+      <!-- TITOLO (DINAMICO PER LINGUA) -->
+      <div class="home-title">
+        <img id="titleImg" src="./assets/img/titles/title-en.png" alt="THE SEVEN SEALS">
+      </div>
+
+      <!-- PANNELLO LINGUA -->
+      <div class="lang-panel">
+        <div class="lang-row">
+          <div class="lang-left">
+            <div class="small muted">LANGUAGE</div>
+            <div class="mini">Default: English. Your choice is saved on this device.</div>
+          </div>
+
+          <div class="lang-right">
+            <select id="langSel" class="select" aria-label="Language">
+              <option value="en">English</option>
+              <option value="it">Italiano</option>
+              <option value="fr">Français</option>
+              <option value="es">Español</option>
+              <option value="de">Deutsch</option>
+              <option value="ru">Русский</option>
+            </select>
+
+            <a class="btn" href="./first.html" id="enterBtn">ENTER</a>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
+
+  <script>
+    (function(){
+      const DEFAULT_LANG = "en";
+      const STORAGE_KEY = "mockys_lang";
+
+      const titleImg = document.getElementById("titleImg");
+      const langSel  = document.getElementById("langSel");
+      const enterBtn = document.getElementById("enterBtn");
+
+      // Mappa lingua -> file titolo
+      const titleSrc = {
+        en: "./assets/img/titles/title-en.png",
+        it: "./assets/img/titles/title-it.png",
+        fr: "./assets/img/titles/title-fr.png",
+        es: "./assets/img/titles/title-es.png",
+        de: "./assets/img/titles/title-de.png",
+        ru: "./assets/img/titles/title-ru.png",
+      };
+
+      // (Opzionale) testo bottone per lingua
+      const enterText = {
+        en: "ENTER",
+        it: "ENTRA",
+        fr: "ENTRER",
+        es: "ENTRAR",
+        de: "EINTRETEN",
+        ru: "ВОЙТИ",
+      };
+
+      function setLang(lang){
+        const L = titleSrc[lang] ? lang : DEFAULT_LANG;
+
+        // aggiorna immagine titolo
+        titleImg.src = titleSrc[L];
+
+        // aggiorna testo bottone
+        enterBtn.textContent = enterText[L] || enterText[DEFAULT_LANG];
+
+        // aggiorna <html lang="">
+        document.documentElement.lang = L;
+
+        // selettore
+        langSel.value = L;
+
+        // salva
+        try { localStorage.setItem(STORAGE_KEY, L); } catch(e){}
+      }
+
+      // init: carica da storage o default
+      let saved = DEFAULT_LANG;
+      try { saved = localStorage.getItem(STORAGE_KEY) || DEFAULT_LANG; } catch(e){}
+      setLang(saved);
+
+      // change
+      langSel.addEventListener("change", (e) => {
+        setLang(e.target.value);
+      });
+    })();
+  </script>
 </body>
 </html>
