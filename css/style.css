@@ -1,25 +1,23 @@
-/* ==========================
-   MOCKYS – HOMEPAGE ONLY
-   ========================== */
-
 :root{
   --fg:#d6f7e7;
-  --muted:#7fd3b0;
   --accent:#66ffcc;
   --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
           "Liberation Mono", "Courier New", monospace;
 }
 
-/* reset minimo */
 *{ box-sizing:border-box; }
 html, body{ height:100%; }
 
-body{
+html, body{
   margin:0;
 
-  /* ✅ sfondo (come prima, stabile) */
-  background:#000 url("../assets/img/bg.png") no-repeat center center fixed;
-  background-size:cover;
+  /* background “locked” su html+body */
+  background-color:#000 !important;
+  background-image:url("../assets/img/bg.png") !important;
+  background-repeat:no-repeat !important;
+  background-size:cover !important;
+  background-attachment:fixed !important;
+  background-position:center 50% !important;
 
   color:var(--fg);
   font-family:var(--mono);
@@ -29,12 +27,11 @@ body{
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ✅ Desktop: abbassa lo sfondo */
 @media (min-width: 1024px){
-  body{
-    background-position: center 80%;
-    /* TEST (attivalo solo per verificare):
-    background-position: left top;
+  html, body{
+    background-position:center 80% !important;
+    /* TEST (se vuoi verificare):
+    background-position:left top !important;
     */
   }
 }
@@ -55,9 +52,4 @@ a:hover{ text-decoration:underline; }
 ::selection{
   background:rgba(102,255,204,.22);
   color:var(--fg);
-}
-
-html, body{
-  background-image:none !important;
-  background-color: magenta !important;
 }
