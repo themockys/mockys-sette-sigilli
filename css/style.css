@@ -39,7 +39,7 @@ body::after{
 /* ✅ Desktop: qui l’offset funziona SEMPRE */
 @media (min-width: 1024px){
   body::after{
-    background-position: center calc(50% + 160px);
+    background-position: center calc(50% + 110px);
     /* TEST se vuoi:
     background-position:left top;
     */
