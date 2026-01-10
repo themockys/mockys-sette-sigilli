@@ -14,19 +14,12 @@
 *{ box-sizing:border-box; }
 html, body{ height:100%; }
 
-/* ==========================
-   BACKGROUND (LOCKED)
-   ========================== */
 body{
   margin:0;
 
-  /* ⚠️ NIENTE shorthand: tutto separato */
-  background-color:#000 !important;
-  background-image:url("../assets/img/bg.png") !important;
-  background-repeat:no-repeat !important;
-  background-attachment:fixed !important;
-  background-size:cover !important;
-  background-position:center 50% !important;
+  /* ✅ sfondo (come prima, stabile) */
+  background:#000 url("../assets/img/bg.png") no-repeat center center fixed;
+  background-size:cover;
 
   color:var(--fg);
   font-family:var(--mono);
@@ -36,45 +29,30 @@ body{
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ✅ Desktop: abbassa lo sfondo (questa ORA funziona) */
+/* ✅ Desktop: abbassa lo sfondo */
 @media (min-width: 1024px){
   body{
-    /* valori tipici: 72–80 */
-    background-position: center 80% !important;
+    background-position: center 80%;
+    /* TEST (attivalo solo per verificare):
+    background-position: left top;
+    */
   }
 }
 
-/* ==========================
-   OVERLAY (leggibilità)
-   ========================== */
+/* overlay globale */
 body::before{
   content:"";
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.65); /* regola qui se lo vuoi più chiaro */
+  background:rgba(0,0,0,.65);
   pointer-events:none;
   z-index:0;
 }
 
-/* ==========================
-   LINK
-   ========================== */
-a{
-  color:var(--accent);
-  text-decoration:none;
-}
-a:hover{
-  text-decoration:underline;
-}
+a{ color:var(--accent); text-decoration:none; }
+a:hover{ text-decoration:underline; }
 
-/* ==========================
-   SELECTION
-   ========================== */
 ::selection{
   background:rgba(102,255,204,.22);
   color:var(--fg);
-}
-
-@media (min-width: 1024px){
-  body{ background-position:left top !important; }
 }
