@@ -74,3 +74,7 @@ a:hover{
   background:rgba(102,255,204,.22);
   color:var(--fg);
 }
+
+@media (min-width: 1024px){
+  body{ background-position:left top !important; }
+}
