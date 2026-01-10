@@ -8,44 +8,55 @@
 *{ box-sizing:border-box; }
 html, body{ height:100%; }
 
-html, body{
+body{
   margin:0;
-
-  /* background “locked” su html+body */
-  background-color:#000 !important;
-  background-image:url("../assets/img/bg.png") !important;
-  background-repeat:no-repeat !important;
-  background-size:cover !important;
-  background-attachment:fixed !important;
-  background-position:center 50% !important;
-
   color:var(--fg);
   font-family:var(--mono);
   letter-spacing:.2px;
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* il body non disegna più lo sfondo direttamente */
+  background:#000;
 }
 
+/* ===== BACKGROUND LAYER (fixed, controllabile) ===== */
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-2;
+  pointer-events:none;
+
+  background-image:url("../assets/img/bg.png");
+  background-repeat:no-repeat;
+  background-size:cover;
+  background-position:center 50%;
+  transform: translateZ(0); /* stabilizza il rendering */
+}
+
+/* ✅ Desktop: qui l’offset funziona SEMPRE */
 @media (min-width: 1024px){
-  html, body{
-    background-position:center 80% !important;
-    /* TEST (se vuoi verificare):
-    background-position:left top !important;
+  body::after{
+    background-position:center 80%;
+    /* TEST se vuoi:
+    background-position:left top;
     */
   }
 }
 
-/* overlay globale */
+/* ===== OVERLAY (fixed) ===== */
 body::before{
   content:"";
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.65);
+  z-index:-1;
   pointer-events:none;
-  z-index:0;
+  background:rgba(0,0,0,.65);
 }
 
+/* link */
 a{ color:var(--accent); text-decoration:none; }
 a:hover{ text-decoration:underline; }
 
