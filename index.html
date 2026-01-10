@@ -5,20 +5,15 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>MOCKYS</title>
 
-  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/style.css?v=3">
 
   <style>
     /* ==========================
        HOMEPAGE – MOCKYS GATE
-       (sfondo/logo invariati)
        ========================== */
 
-    /* ✅ torna a luminosità/contrasto desiderati (solo homepage) */
     body{
       filter: brightness(1.25) contrast(1.1);
-    }
-    body::before{
-      display:none !important;
     }
 
     .home{
@@ -28,7 +23,7 @@
       align-items:flex-start;
       padding-top:28px;
       position:relative;
-      z-index:1; /* sopra overlay globale */
+      z-index:1;
     }
 
     .home-inner{
@@ -53,7 +48,8 @@
       filter:
         drop-shadow(0 0 48px rgba(0,0,0,.9))
         drop-shadow(0 0 24px rgba(102,255,204,.4));
-      transform: translateY(36px);
+      /* ✅ abbassato (prima era -18px) */
+      transform: translateY(10px);
     }
 
     /* LANGUAGE SELECT (top-right, vertical) + FRAME */
@@ -64,10 +60,9 @@
       display:flex;
       flex-direction:column;
       gap:8px;
-      z-index:3;
+      z-index:6;
       user-select:none;
 
-      /* ✅ cornice “glass” che attenua lo sfondo */
       padding:10px;
       border-radius:14px;
       background:rgba(0,0,0,.38);
@@ -99,10 +94,7 @@
 
     /* CENTRAL GLASS FRAME (text + door) */
     .gate-frame{
-      /* ✅ più su, subito sotto il logo */
       margin-top:-56px;
-
-      /* ✅ larghezza stretta: poco più del testo */
       width: fit-content;
       max-width: 88vw;
 
@@ -111,7 +103,6 @@
       align-items:center;
       gap:14px;
 
-      /* ✅ cornice “glass” che attenua lo sfondo */
       padding:18px 22px;
       border-radius:18px;
       background:rgba(0,0,0,.42);
@@ -149,7 +140,7 @@
       filter:
         drop-shadow(0 0 18px rgba(0,0,0,.8))
         drop-shadow(0 0 10px rgba(102,255,204,.18));
-      pointer-events:none; /* ✅ non cliccabile */
+      pointer-events:none;
     }
 
     /* The ONLY clickable thing */
@@ -163,13 +154,95 @@
       text-decoration:none;
       transition:opacity .12s ease;
     }
-    .door-link:hover{
+    .door-link:hover{ opacity:1; }
+
+    /* ==========================
+       PHASE 1 (GENESI) – REVEAL
+       ========================== */
+    .phase1-msg{
+      margin-top:10px;
+      text-align:center;
+      font-family:var(--mono);
+      font-size:13px;
+      line-height:1.45;
+      opacity:0;
+      transform: translateY(-4px);
+      transition: opacity .25s ease, transform .25s ease;
+      max-width: 54ch;
+      color: rgba(214,247,231,.88);
+      text-shadow: 0 0 18px rgba(0,0,0,.8);
+    }
+    body.phase1 .phase1-msg{
+      opacity:1;
+      transform: translateY(0);
+    }
+
+    /* ==========================
+       GLITCH (activated on phase1)
+       ========================== */
+    .glitch-layer{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:5;
+      opacity:0;
+      transition:opacity .2s ease;
+      mix-blend-mode:screen;
+    }
+
+    /* scan + grain + slight chroma offset illusion */
+    .glitch-layer::before{
+      content:"";
+      position:absolute;
+      inset:-20%;
+      background:
+        linear-gradient(transparent 0%, rgba(255,255,255,.05) 45%, transparent 55%) 0 0 / 100% 7px;
+      opacity:.18;
+      animation: scan 1.4s linear infinite;
+    }
+    .glitch-layer::after{
+      content:"";
+      position:absolute;
+      inset:-20%;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(102,255,204,.08), transparent 45%),
+        radial-gradient(circle at 80% 70%, rgba(255,77,109,.06), transparent 50%),
+        repeating-linear-gradient(90deg, rgba(255,255,255,.02) 0 1px, transparent 1px 3px);
+      opacity:.20;
+      animation: jitter 0.9s steps(2,end) infinite;
+      filter: blur(.2px);
+    }
+
+    body.phase1 .glitch-layer{
       opacity:1;
     }
 
+    /* Tiny whole-page jitter */
+    body.phase1 .home-inner{
+      animation: microJitter 1.1s steps(2,end) infinite;
+    }
+
+    @keyframes scan{
+      from{ transform: translateY(-18px); }
+      to{ transform: translateY(18px); }
+    }
+    @keyframes jitter{
+      0%{ transform: translate(0,0); }
+      25%{ transform: translate(2px,-1px); }
+      50%{ transform: translate(-2px,1px); }
+      75%{ transform: translate(1px,2px); }
+      100%{ transform: translate(0,0); }
+    }
+    @keyframes microJitter{
+      0%{ transform: translate(0,0); }
+      50%{ transform: translate(0.6px,-0.6px); }
+      100%{ transform: translate(0,0); }
+    }
+
+    /* Mobile adjustments */
     @media (max-width:700px){
       .home{ padding-top:18px; }
-      .home-logo img{ height:190px; transform: translateY(-10px); }
+      .home-logo img{ height:190px; transform: translateY(4px); }
 
       .gate-frame{
         margin-top:-24px;
@@ -179,11 +252,16 @@
 
       .lang-stack{ top:10px; right:10px; padding:8px; }
       .door-icon{ width:56px; height:56px; }
+
+      .phase1-msg{ font-size:12px; max-width: 46ch; }
     }
   </style>
 </head>
 
 <body>
+  <!-- Glitch overlay layer -->
+  <div class="glitch-layer" aria-hidden="true"></div>
+
   <div class="home">
     <div class="home-inner">
 
@@ -202,7 +280,7 @@
         <img src="./assets/img/logo-mockys.png" alt="MOCKYS">
       </div>
 
-      <!-- CENTRAL GLASS FRAME (copy + door) -->
+      <!-- CENTRAL GLASS FRAME (copy + door + phase1) -->
       <div class="gate-frame" aria-live="polite">
 
         <!-- Welcome copy -->
@@ -214,11 +292,12 @@
 
         <!-- Door -->
         <div class="door-wrap">
-          <!-- ✅ Sostituisci con il path dell’icona porta “seconda” -->
-          <img class="door-icon" src="./assets/img/icons/door2.png" alt="" aria-hidden="true">
+          <img class="door-icon" src="./assets/img/icons/door1.png" alt="" aria-hidden="true">
+          <!-- NOTE: link no longer navigates. It triggers Phase 1 (GENESI). -->
+          <a class="door-link" id="doorLink" href="#">Behind this door, the Path begins.</a>
 
-          <!-- ✅ Solo questo è cliccabile -->
-          <a class="door-link" id="doorLink" href="./first.html">Behind this door, the Path begins.</a>
+          <!-- Phase 1 message (revealed on click) -->
+          <div class="phase1-msg" id="phase1Msg"></div>
         </div>
 
       </div>
@@ -273,16 +352,29 @@
         ru: "За этой дверью начинается Путь."
       };
 
+      /* Phase 1 message (GENESI) – requested text */
+      const phase1Text = {
+        en: "Now you’re on the Path. If everything feels normal… it’s because you’re not looking in the right place.",
+        it: "Adesso sei sulla Via. Se tutto ti sembra normale... è perché non stai guardando nel punto giusto.",
+        es: "Ahora estás en el Camino. Si todo te parece normal… es porque no estás mirando en el lugar correcto.",
+        fr: "Tu es maintenant sur la Voie. Si tout te paraît normal… c’est que tu ne regardes pas au bon endroit.",
+        de: "Jetzt bist du auf dem Weg. Wenn alles normal wirkt… liegt es daran, dass du nicht an der richtigen Stelle hinsiehst.",
+        ru: "Теперь ты на Пути. Если всё кажется обычным… значит, ты смотришь не туда."
+      };
+
       const l1 = document.getElementById("l1");
       const l2 = document.getElementById("l2");
       const l3 = document.getElementById("l3");
-      const doorLink = document.getElementById("doorLink");
+      const doorLinkEl = document.getElementById("doorLink");
+      const phase1MsgEl = document.getElementById("phase1Msg");
       const buttons = Array.from(document.querySelectorAll(".lang-stack button"));
 
       function setActiveButton(lang){
-        buttons.forEach(b => {
-          b.classList.toggle("is-active", b.dataset.lang === lang);
-        });
+        buttons.forEach(b => b.classList.toggle("is-active", b.dataset.lang === lang));
+      }
+
+      function getSavedLang(){
+        try { return localStorage.getItem(STORAGE_KEY) || DEFAULT_LANG; } catch(e){ return DEFAULT_LANG; }
       }
 
       function setLang(lang){
@@ -293,7 +385,15 @@
         l2.textContent = t[1];
         l3.textContent = t[2];
 
-        doorLink.textContent = doorText[L] || doorText[DEFAULT_LANG];
+        doorLinkEl.textContent = doorText[L] || doorText[DEFAULT_LANG];
+
+        // If Phase 1 is active, keep message in selected language
+        if (document.body.classList.contains("phase1")) {
+          phase1MsgEl.textContent = phase1Text[L] || phase1Text[DEFAULT_LANG];
+        } else {
+          // keep empty until activated
+          phase1MsgEl.textContent = "";
+        }
 
         document.documentElement.lang = L;
         setActiveButton(L);
@@ -301,16 +401,28 @@
         try { localStorage.setItem(STORAGE_KEY, L); } catch(e){}
       }
 
-      let saved = DEFAULT_LANG;
-      try { saved = localStorage.getItem(STORAGE_KEY) || DEFAULT_LANG; } catch(e){}
-      setLang(saved);
+      // init language
+      setLang(getSavedLang());
 
+      // language switching
       buttons.forEach(btn => {
         btn.addEventListener("click", () => {
           const L = btn.dataset.lang;
           if (!L || btn.classList.contains("is-active")) return;
           setLang(L);
         });
+      });
+
+      // Phase 1 trigger (GENESI)
+      doorLinkEl.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        if (!document.body.classList.contains("phase1")) {
+          document.body.classList.add("phase1");
+        }
+
+        const L = getSavedLang();
+        phase1MsgEl.textContent = phase1Text[L] || phase1Text[DEFAULT_LANG];
       });
     })();
   </script>
