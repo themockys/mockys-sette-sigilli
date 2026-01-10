@@ -32,7 +32,7 @@ body::after{
   background-image:url("../assets/img/bg.png");
   background-repeat:no-repeat;
   background-size:cover;
-  background-position:center 50%;
+  background-position:center 72%;
   transform: translateZ(0); /* stabilizza il rendering */
 }
 
