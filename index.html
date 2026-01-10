@@ -9,17 +9,18 @@
 
   <style>
     /* ==========================
-       HOMEPAGE – LAYOUT + BOOST
+       HOMEPAGE – MOCKYS GATE
+       (sfondo/logo invariati)
        ========================== */
 
     /* ✅ torna a luminosità/contrasto desiderati (solo homepage) */
     body{
       filter: brightness(1.25) contrast(1.1);
     }
-body::before{
-  display:none !important;
-}
-    
+    body::before{
+      display:none !important;
+    }
+
     .home{
       min-height:100vh;
       display:flex;
@@ -36,14 +37,15 @@ body::before{
       flex-direction:column;
       align-items:center;
       gap:18px;
+      position:relative;
     }
 
+    /* LOGO */
     .home-logo{
       display:flex;
       justify-content:center;
       width:100%;
     }
-
     .home-logo img{
       width:auto;
       height:320px;
@@ -54,81 +56,94 @@ body::before{
       transform: translateY(-18px);
     }
 
-    /* Titolo lingua (PNG trasparente) */
-    .home-title{
-      margin-top:-10px;
-      display:flex;
-      justify-content:center;
-      width:100%;
-      background:none !important;
-    }
-
-    /* ✅ titolo molto più grande */
-    .home-title img{
-      width:auto;
-      height:230px;          /* 🔺 più grande */
-      max-width:96vw;
-      display:block;
-      background:transparent !important;
-      filter:
-        drop-shadow(0 0 36px rgba(0,0,0,.95))
-        drop-shadow(0 0 20px rgba(102,255,204,.35));
-      transform: translateY(-10px);
-    }
-
-    /* Pannello lingua */
-    .lang-panel{
-      width:min(720px, 92vw);
-      border:1px solid rgba(102,255,204,.16);
-      background:rgba(12,18,26,.72);
-      border-radius:16px;
-      box-shadow:var(--shadow);
-      padding:14px;
-    }
-
-    .lang-row{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      flex-wrap:wrap;
-      justify-content:space-between;
-    }
-
-    .lang-left{
+    /* LANGUAGE SELECT (top-right, vertical) */
+    .lang-stack{
+      position:absolute;
+      top:14px;
+      right:16px;
       display:flex;
       flex-direction:column;
-      gap:4px;
+      gap:8px;
+      z-index:3;
+      user-select:none;
     }
-
-    .lang-right{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      flex-wrap:wrap;
-    }
-
-    .select{
+    .lang-stack button{
+      all:unset;
       font-family:var(--mono);
-      background:rgba(0,0,0,0.55);
-      border:1px solid rgba(255,255,255,0.15);
-      color:var(--fg);
-      padding:10px 12px;
-      border-radius:10px;
-      outline:none;
-      font-size:14px;
-      min-width: 220px;
+      letter-spacing:0.08em;
+      font-size:12px;
+      line-height:1;
+      padding:6px 8px;
+      border-radius:8px;
+      cursor:pointer;
+      opacity:.55;
+      transition:opacity .12s ease, transform .12s ease;
+    }
+    .lang-stack button:hover{
+      opacity:.85;
+      transform: translateX(-1px);
+    }
+    .lang-stack button.is-active{
+      opacity:1;
+      cursor:default;
+      transform:none;
     }
 
-    .mini{
-      font-size:12px;
+    /* COPY (3 lines) */
+    .gate-copy{
+      width:min(720px, 92vw);
+      text-align:center;
+      margin-top:-10px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .gate-copy .line{
+      font-family:var(--mono);
+      font-size:18px;
+      line-height:1.35;
+      text-shadow: 0 0 22px rgba(0,0,0,.75);
+      opacity:.92;
+    }
+
+    /* Door icon (NOT clickable) */
+    .door-wrap{
+      margin-top:14px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:10px;
+    }
+    .door-icon{
+      width:64px;
+      height:64px;
       opacity:.78;
+      filter:
+        drop-shadow(0 0 18px rgba(0,0,0,.8))
+        drop-shadow(0 0 10px rgba(102,255,204,.18));
+      pointer-events:none; /* ✅ non cliccabile */
+    }
+
+    /* The ONLY clickable thing */
+    .door-link{
+      font-family:var(--mono);
+      font-size:14px;
+      letter-spacing:0.02em;
+      opacity:.82;
+      cursor:pointer;
+      text-decoration:none;
+      transition:opacity .12s ease;
+    }
+    .door-link:hover{
+      opacity:1;
     }
 
     @media (max-width:700px){
       .home{ padding-top:18px; }
       .home-logo img{ height:190px; transform: translateY(-10px); }
-      .home-title img{ height:150px; transform: translateY(-6px); }
-      .select{ min-width: 180px; }
+      .gate-copy .line{ font-size:15px; }
+      .lang-stack{ top:10px; right:10px; }
+      .door-icon{ width:56px; height:56px; }
     }
   </style>
 </head>
@@ -137,37 +152,35 @@ body::before{
   <div class="home">
     <div class="home-inner">
 
+      <!-- Language stack (top-right) -->
+      <div class="lang-stack" aria-label="Language selector">
+        <button type="button" data-lang="en">EN</button>
+        <button type="button" data-lang="es">ES</button>
+        <button type="button" data-lang="fr">FR</button>
+        <button type="button" data-lang="it">IT</button>
+        <button type="button" data-lang="de">DE</button>
+        <button type="button" data-lang="ru">RU</button>
+      </div>
+
       <!-- LOGO MOCKYS -->
       <div class="home-logo">
         <img src="./assets/img/logo-mockys.png" alt="MOCKYS">
       </div>
 
-      <!-- TITOLO (DINAMICO PER LINGUA) -->
-      <div class="home-title">
-        <img id="titleImg" src="./assets/img/titles/title-en.png?v=2" alt="THE SEVEN SEALS">
+      <!-- Welcome copy -->
+      <div class="gate-copy" aria-live="polite">
+        <div class="line" id="l1">This is the Path of Truth.</div>
+        <div class="line" id="l2">They say it leads to wealth.</div>
+        <div class="line" id="l3">It certainly puts everything else into question.</div>
       </div>
 
-      <!-- PANNELLO LINGUA -->
-      <div class="lang-panel">
-        <div class="lang-row">
-          <div class="lang-left">
-            <div class="small muted">LANGUAGE</div>
-            <div class="mini">Default: English. Your choice is saved on this device.</div>
-          </div>
+      <!-- Door -->
+      <div class="door-wrap">
+        <!-- ✅ Sostituisci con il path dell’icona porta “seconda” -->
+        <img class="door-icon" src="./assets/img/icons/door.png" alt="" aria-hidden="true">
 
-          <div class="lang-right">
-            <select id="langSel" class="select" aria-label="Language">
-              <option value="en">English</option>
-              <option value="it">Italiano</option>
-              <option value="fr">Français</option>
-              <option value="es">Español</option>
-              <option value="de">Deutsch</option>
-              <option value="ru">Русский</option>
-            </select>
-
-            <a class="btn" href="./first.html" id="enterBtn">ENTER</a>
-          </div>
-        </div>
+        <!-- ✅ Solo questo è cliccabile -->
+        <a class="door-link" id="doorLink" href="./first.html">Behind this door, the Path begins.</a>
       </div>
 
     </div>
@@ -177,37 +190,73 @@ body::before{
     (function(){
       const DEFAULT_LANG = "en";
       const STORAGE_KEY = "mockys_lang";
-      const CACHE_BUSTER = "v=2"; // aumenta quando sostituisci i PNG
 
-      const titleImg = document.getElementById("titleImg");
-      const langSel  = document.getElementById("langSel");
-      const enterBtn = document.getElementById("enterBtn");
-
-      const titleSrc = {
-        en: `./assets/img/titles/title-en.png?${CACHE_BUSTER}`,
-        it: `./assets/img/titles/title-it.png?${CACHE_BUSTER}`,
-        fr: `./assets/img/titles/title-fr.png?${CACHE_BUSTER}`,
-        es: `./assets/img/titles/title-es.png?${CACHE_BUSTER}`,
-        de: `./assets/img/titles/title-de.png?${CACHE_BUSTER}`,
-        ru: `./assets/img/titles/title-ru.png?${CACHE_BUSTER}`,
+      const lines = {
+        en: [
+          "This is the Path of Truth.",
+          "They say it leads to wealth.",
+          "It certainly puts everything else into question."
+        ],
+        it: [
+          "Questa è la Via della Verità.",
+          "Dicono che conduca alla ricchezza.",
+          "Di sicuro mette in crisi tutto il resto."
+        ],
+        es: [
+          "Este es el Camino de la Verdad.",
+          "Dicen que conduce a la riqueza.",
+          "Sin duda pone todo lo demás en cuestión."
+        ],
+        fr: [
+          "Voici la Voie de la Vérité.",
+          "On dit qu’elle mène à la richesse.",
+          "Elle remet certainement tout le reste en question."
+        ],
+        de: [
+          "Dies ist der Weg der Wahrheit.",
+          "Man sagt, er führe zum Reichtum.",
+          "Alles andere stellt er infrage."
+        ],
+        ru: [
+          "Это Путь Истины.",
+          "Говорят, он ведёт к богатству.",
+          "Всё остальное он ставит под сомнение."
+        ]
       };
 
-      const enterText = {
-        en: "ENTER",
-        it: "ENTRA",
-        fr: "ENTRER",
-        es: "ENTRAR",
-        de: "EINTRETEN",
-        ru: "ВОЙТИ",
+      const doorText = {
+        en: "Behind this door, the Path begins.",
+        it: "Dietro questa porta inizia la Via.",
+        es: "Detrás de esta puerta comienza el Camino.",
+        fr: "Derrière cette porte commence la Voie.",
+        de: "Hinter dieser Tür beginnt der Weg.",
+        ru: "За этой дверью начинается Путь."
       };
+
+      const l1 = document.getElementById("l1");
+      const l2 = document.getElementById("l2");
+      const l3 = document.getElementById("l3");
+      const doorLink = document.getElementById("doorLink");
+      const buttons = Array.from(document.querySelectorAll(".lang-stack button"));
+
+      function setActiveButton(lang){
+        buttons.forEach(b => {
+          b.classList.toggle("is-active", b.dataset.lang === lang);
+        });
+      }
 
       function setLang(lang){
-        const L = titleSrc[lang] ? lang : DEFAULT_LANG;
+        const L = lines[lang] ? lang : DEFAULT_LANG;
+        const t = lines[L];
 
-        titleImg.src = titleSrc[L];
-        enterBtn.textContent = enterText[L] || enterText[DEFAULT_LANG];
+        l1.textContent = t[0];
+        l2.textContent = t[1];
+        l3.textContent = t[2];
+
+        doorLink.textContent = doorText[L] || doorText[DEFAULT_LANG];
+
         document.documentElement.lang = L;
-        langSel.value = L;
+        setActiveButton(L);
 
         try { localStorage.setItem(STORAGE_KEY, L); } catch(e){}
       }
@@ -216,8 +265,12 @@ body::before{
       try { saved = localStorage.getItem(STORAGE_KEY) || DEFAULT_LANG; } catch(e){}
       setLang(saved);
 
-      langSel.addEventListener("change", (e) => {
-        setLang(e.target.value);
+      buttons.forEach(btn => {
+        btn.addEventListener("click", () => {
+          const L = btn.dataset.lang;
+          if (!L || btn.classList.contains("is-active")) return;
+          setLang(L);
+        });
       });
     })();
   </script>
