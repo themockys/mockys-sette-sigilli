@@ -97,25 +97,35 @@
       transform:none;
     }
 
-    /* COPY (3 lines) + FRAME */
-    .gate-copy{
-      width:min(720px, 92vw);
-      text-align:center;
+    /* CENTRAL GLASS FRAME (text + door) */
+    .gate-frame{
+      /* ✅ più su, subito sotto il logo */
+      margin-top:-56px;
 
-      /* ✅ Desktop: più su (un poco più giù del logo) */
-      margin-top:-28px;
+      /* ✅ larghezza stretta: poco più del testo */
+      width: fit-content;
+      max-width: 88vw;
 
       display:flex;
       flex-direction:column;
-      gap:8px;
+      align-items:center;
+      gap:14px;
 
       /* ✅ cornice “glass” che attenua lo sfondo */
-      padding:16px 18px;
-      border-radius:16px;
+      padding:18px 22px;
+      border-radius:18px;
       background:rgba(0,0,0,.42);
       border:1px solid rgba(255,255,255,.10);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
+      backdrop-filter: blur(7px);
+      -webkit-backdrop-filter: blur(7px);
+    }
+
+    /* COPY (3 lines) */
+    .gate-copy{
+      text-align:center;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
     }
     .gate-copy .line{
       font-family:var(--mono);
@@ -127,7 +137,6 @@
 
     /* Door icon (NOT clickable) */
     .door-wrap{
-      margin-top:14px;
       display:flex;
       flex-direction:column;
       align-items:center;
@@ -145,6 +154,7 @@
 
     /* The ONLY clickable thing */
     .door-link{
+      margin-top:2px;
       font-family:var(--mono);
       font-size:14px;
       letter-spacing:0.02em;
@@ -161,8 +171,10 @@
       .home{ padding-top:18px; }
       .home-logo img{ height:190px; transform: translateY(-10px); }
 
-      /* Mobile: un filo meno su + frame più compatto */
-      .gate-copy{ margin-top:-14px; padding:14px 14px; }
+      .gate-frame{
+        margin-top:-24px;
+        padding:14px 16px;
+      }
       .gate-copy .line{ font-size:15px; }
 
       .lang-stack{ top:10px; right:10px; padding:8px; }
@@ -190,20 +202,25 @@
         <img src="./assets/img/logo-mockys.png" alt="MOCKYS">
       </div>
 
-      <!-- Welcome copy -->
-      <div class="gate-copy" aria-live="polite">
-        <div class="line" id="l1">This is the Path of Truth.</div>
-        <div class="line" id="l2">They say it leads to wealth.</div>
-        <div class="line" id="l3">It certainly puts everything else into question.</div>
-      </div>
+      <!-- CENTRAL GLASS FRAME (copy + door) -->
+      <div class="gate-frame" aria-live="polite">
 
-      <!-- Door -->
-      <div class="door-wrap">
-        <!-- ✅ Sostituisci con il path dell’icona porta “seconda” -->
-        <img class="door-icon" src="./assets/img/icons/door1.png" alt="" aria-hidden="true">
+        <!-- Welcome copy -->
+        <div class="gate-copy">
+          <div class="line" id="l1">This is the Path of Truth.</div>
+          <div class="line" id="l2">They say it leads to wealth.</div>
+          <div class="line" id="l3">It certainly puts everything else into question.</div>
+        </div>
 
-        <!-- ✅ Solo questo è cliccabile -->
-        <a class="door-link" id="doorLink" href="./first.html">Behind this door, the Path begins.</a>
+        <!-- Door -->
+        <div class="door-wrap">
+          <!-- ✅ Sostituisci con il path dell’icona porta “seconda” -->
+          <img class="door-icon" src="./assets/img/icons/door1.png" alt="" aria-hidden="true">
+
+          <!-- ✅ Solo questo è cliccabile -->
+          <a class="door-link" id="doorLink" href="./first.html">Behind this door, the Path begins.</a>
+        </div>
+
       </div>
 
     </div>
