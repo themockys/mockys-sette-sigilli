@@ -56,7 +56,7 @@
       transform: translateY(-18px);
     }
 
-    /* LANGUAGE SELECT (top-right, vertical) */
+    /* LANGUAGE SELECT (top-right, vertical) + FRAME */
     .lang-stack{
       position:absolute;
       top:14px;
@@ -66,6 +66,14 @@
       gap:8px;
       z-index:3;
       user-select:none;
+
+      /* ✅ cornice “glass” che attenua lo sfondo */
+      padding:10px;
+      border-radius:14px;
+      background:rgba(0,0,0,.38);
+      border:1px solid rgba(255,255,255,.10);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
     }
     .lang-stack button{
       all:unset;
@@ -89,14 +97,25 @@
       transform:none;
     }
 
-    /* COPY (3 lines) */
+    /* COPY (3 lines) + FRAME */
     .gate-copy{
       width:min(720px, 92vw);
       text-align:center;
-      margin-top:-10px;
+
+      /* ✅ Desktop: più su (un poco più giù del logo) */
+      margin-top:-28px;
+
       display:flex;
       flex-direction:column;
       gap:8px;
+
+      /* ✅ cornice “glass” che attenua lo sfondo */
+      padding:16px 18px;
+      border-radius:16px;
+      background:rgba(0,0,0,.42);
+      border:1px solid rgba(255,255,255,.10);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
     }
     .gate-copy .line{
       font-family:var(--mono);
@@ -141,8 +160,12 @@
     @media (max-width:700px){
       .home{ padding-top:18px; }
       .home-logo img{ height:190px; transform: translateY(-10px); }
+
+      /* Mobile: un filo meno su + frame più compatto */
+      .gate-copy{ margin-top:-14px; padding:14px 14px; }
       .gate-copy .line{ font-size:15px; }
-      .lang-stack{ top:10px; right:10px; }
+
+      .lang-stack{ top:10px; right:10px; padding:8px; }
       .door-icon{ width:56px; height:56px; }
     }
   </style>
