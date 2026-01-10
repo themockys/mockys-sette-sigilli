@@ -1,20 +1,32 @@
+/* ==========================
+   MOCKYS – HOMEPAGE ONLY
+   ========================== */
+
 :root{
   --fg:#d6f7e7;
   --muted:#7fd3b0;
   --accent:#66ffcc;
-  --shadow: 0 18px 60px rgba(0,0,0,.55);
-  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+          "Liberation Mono", "Courier New", monospace;
 }
 
+/* reset minimo */
 *{ box-sizing:border-box; }
-html,body{ height:100%; }
+html, body{ height:100%; }
 
+/* ==========================
+   BACKGROUND (LOCKED)
+   ========================== */
 body{
   margin:0;
 
-  /* ✅ sfondo */
-  background:#000 url("../assets/img/bg.png") no-repeat center 50% fixed;
-  background-size:cover;
+  /* ⚠️ NIENTE shorthand: tutto separato */
+  background-color:#000 !important;
+  background-image:url("../assets/img/bg.png") !important;
+  background-repeat:no-repeat !important;
+  background-attachment:fixed !important;
+  background-size:cover !important;
+  background-position:center 50% !important;
 
   color:var(--fg);
   font-family:var(--mono);
@@ -24,36 +36,41 @@ body{
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ✅ Desktop: abbassa lo sfondo (compensa UI browser) */
+/* ✅ Desktop: abbassa lo sfondo (questa ORA funziona) */
 @media (min-width: 1024px){
   body{
-    /* regola qui: 70–80% di solito si vede bene */
+    /* valori tipici: 72–80 */
     background-position: center 80% !important;
   }
 }
 
-/* ✅ overlay globale (leggibilità) */
+/* ==========================
+   OVERLAY (leggibilità)
+   ========================== */
 body::before{
   content:"";
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.65);
+  background:rgba(0,0,0,.65); /* regola qui se lo vuoi più chiaro */
   pointer-events:none;
   z-index:0;
 }
 
-/* link */
-a{ color:var(--accent); text-decoration:none; }
-a:hover{ text-decoration:underline; }
+/* ==========================
+   LINK
+   ========================== */
+a{
+  color:var(--accent);
+  text-decoration:none;
+}
+a:hover{
+  text-decoration:underline;
+}
 
-/* selezione testo */
+/* ==========================
+   SELECTION
+   ========================== */
 ::selection{
   background:rgba(102,255,204,.22);
   color:var(--fg);
-}
-
-@media (min-width: 1024px){
-  body{
-    background-position: left top !important;
-  }
 }
