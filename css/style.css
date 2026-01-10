@@ -56,3 +56,8 @@ a:hover{ text-decoration:underline; }
   background:rgba(102,255,204,.22);
   color:var(--fg);
 }
+
+html, body{
+  background-image:none !important;
+  background-color: magenta !important;
+}
