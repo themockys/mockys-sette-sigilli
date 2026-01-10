@@ -12,9 +12,7 @@
        HOMEPAGE – MOCKYS GATE
        ========================== */
 
-    /* ✅ IMPORTANTISSIMO:
-       il filtro NON deve stare su body (rompe fixed background su Chrome).
-       Lo applichiamo al contenuto. */
+    /* ✅ filtro sul contenuto, NON sul body */
     .home{
       filter: brightness(1.25) contrast(1.1);
 
@@ -177,8 +175,7 @@
       transform: translateY(0);
     }
 
-    /* ✅ Glitch “pulito”: nessun overlay, nessuna oscurazione.
-       Solo micro-instabilità del pannello. */
+    /* ✅ Glitch pulito: nessun overlay, nessuna oscurazione */
     body.phase1 .gate-frame{
       animation: microJitter 1.2s steps(2,end) infinite;
     }
@@ -237,7 +234,9 @@
 
         <div class="door-wrap">
           <img class="door-icon" src="./assets/img/icons/door1.png" alt="" aria-hidden="true">
-          <a class="door-link" id="doorLink" href="#">Behind this door, the Path begins.</a>
+          <a class="door-link" id="doorLink" href="#" role="button" aria-controls="phase1Msg">
+            Behind this door, the Path begins.
+          </a>
           <div class="phase1-msg" id="phase1Msg"></div>
         </div>
 
