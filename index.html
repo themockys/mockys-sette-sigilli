@@ -48,7 +48,7 @@
       transform: translateY(10px);
     }
 
-    /* LANGUAGE SELECT (top-right, vertical) + FRAME */
+    /* LANGUAGE SELECT (top-right, vertical) */
     .lang-stack{
       position:absolute;
       top:14px;
@@ -143,7 +143,7 @@
       pointer-events:none;
     }
 
-    /* Step 1 trigger as REAL button */
+    /* Step 1 trigger button */
     .door-link{
       margin-top:2px;
       font-family:var(--mono);
@@ -161,9 +161,7 @@
     .door-link:hover{ opacity:1; }
     .door-link:focus{ outline:none; }
 
-    /* ==========================
-       STEP 1: message reveal
-       ========================== */
+    /* STEP 1 message */
     .phase1-msg{
       margin-top:10px;
       text-align:center;
@@ -182,249 +180,48 @@
       transform: translateY(0);
     }
 
-   <!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>MOCKYS</title>
-
-  <link rel="stylesheet" href="./css/style.css?v=999">
-
-  <style>
     /* ==========================
-       HOMEPAGE – MOCKYS GATE
+       GLITCH HOTSPOT – INVISIBLE ALWAYS
        ========================== */
-
-    .home{
-      filter: brightness(1.25) contrast(1.1);
-      min-height:100vh;
-      display:flex;
-      justify-content:flex-start;
-      align-items:flex-start;
-      padding-top:28px;
-      position:relative;
-      z-index:1;
-    }
-
-    .home-inner{
-      width:100%;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap:18px;
-      position:relative;
-    }
-
-    /* LOGO */
-    .home-logo{
-      display:flex;
-      justify-content:center;
-      width:100%;
-    }
-    .home-logo img{
-      width:auto;
-      height:320px;
-      max-width:94vw;
-      filter:
-        drop-shadow(0 0 48px rgba(0,0,0,.9))
-        drop-shadow(0 0 24px rgba(102,255,204,.4));
-      transform: translateY(10px);
-    }
-
-    /* LANGUAGE SELECT (top-right, vertical) + FRAME */
-    .lang-stack{
+    #glitchDot.glitch-dot{
       position:absolute;
-      top:14px;
-      right:16px;
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-      z-index:6;
-      user-select:none;
+      top: 38px;
+      right: -18px;
 
-      padding:10px;
-      border-radius:14px;
-      background:rgba(0,0,0,.38);
-      border:1px solid rgba(255,255,255,.10);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-    }
-    .lang-stack button{
-      all:unset;
-      font-family:var(--mono);
-      letter-spacing:0.08em;
-      font-size:12px;
-      line-height:1;
-      padding:6px 8px;
-      border-radius:8px;
-      cursor:pointer;
-      opacity:.55;
-      transition:opacity .12s ease, transform .12s ease;
-    }
-    .lang-stack button:hover{
-      opacity:.85;
-      transform: translateX(-1px);
-    }
-    .lang-stack button.is-active{
-      opacity:1;
-      cursor:default;
-      transform:none;
+      /* hitbox comoda */
+      width:26px;
+      height:26px;
+      border-radius:999px;
+
+      /* invisibile SEMPRE */
+      opacity: 0 !important;
+      background: transparent !important;
+      border: 0 !important;
+      outline: 0 !important;
+      box-shadow: none !important;
+      animation: none !important;
+      transform: none !important;
+
+      pointer-events: none; /* off di default */
+      z-index: 50;
     }
 
-    /* CENTRAL GLASS FRAME */
-    .gate-frame{
-      margin-top:-78px;
-      width: fit-content;
-      max-width: 88vw;
-
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap:14px;
-
-      padding:18px 22px;
-      border-radius:18px;
-      background:rgba(0,0,0,.42);
-      border:1px solid rgba(255,255,255,.10);
-      backdrop-filter: blur(7px);
-      -webkit-backdrop-filter: blur(7px);
-
-      position:relative;
+    /* ON: cliccabile ma invisibile (anche hover) */
+    body.phase1 #glitchDot.glitch-dot.is-on{
+      opacity: 0 !important;               /* resta invisibile */
+      pointer-events: auto !important;     /* cliccabile */
+      cursor: pointer;
+    }
+    body.phase1 #glitchDot.glitch-dot.is-on:hover{
+      opacity: 0 !important;
+      background: transparent !important;
+      border: 0 !important;
+      outline: 0 !important;
+      box-shadow: none !important;
+      animation: none !important;
     }
 
-    /* COPY (3 lines) */
-    .gate-copy{
-      text-align:center;
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-    }
-    .gate-copy .line{
-      font-family:var(--mono);
-      font-size:18px;
-      line-height:1.35;
-      text-shadow: 0 0 22px rgba(0,0,0,.75);
-      opacity:.92;
-      transition: opacity .18s ease, transform .18s ease;
-    }
-
-    /* Door */
-    .door-wrap{
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap:10px;
-      position:relative;
-    }
-    .door-icon{
-      width:64px;
-      height:64px;
-      opacity:.78;
-      filter:
-        drop-shadow(0 0 18px rgba(0,0,0,.8))
-        drop-shadow(0 0 10px rgba(102,255,204,.18));
-      pointer-events:none;
-    }
-
-    /* Step 1 trigger as REAL button */
-    .door-link{
-      margin-top:2px;
-      font-family:var(--mono);
-      font-size:14px;
-      letter-spacing:0.02em;
-      opacity:.82;
-      cursor:pointer;
-      transition:opacity .12s ease;
-
-      background:transparent;
-      border:0;
-      padding:0;
-      color: var(--accent);
-    }
-    .door-link:hover{ opacity:1; }
-    .door-link:focus{ outline:none; }
-
-    /* ==========================
-       STEP 1: message reveal
-       ========================== */
-    .phase1-msg{
-      margin-top:10px;
-      text-align:center;
-      font-family:var(--mono);
-      font-size:13px;
-      line-height:1.45;
-      opacity:0;
-      transform: translateY(-4px);
-      transition: opacity .25s ease, transform .25s ease;
-      max-width: 54ch;
-      color: rgba(214,247,231,.88);
-      text-shadow: 0 0 18px rgba(0,0,0,.8);
-    }
-    body.phase1 .phase1-msg{
-      opacity:1;
-      transform: translateY(0);
-    }
-
-   /* ==========================
-   GLITCH HOTSPOT (ancorato alla porta)
-   ========================== */
-
-.glitch-dot{
-  position:absolute;
-  top: 38px;
-  right: -18px;
-
-  /* ✅ hitbox comoda */
-  width:26px;
-  height:26px;
-  border-radius:999px;
-
-  /* ✅ invisibile */
-  opacity:0;
-  pointer-events:none;
-  background: transparent;
-  border: 0;
-  box-shadow: none;
-
-  z-index: 50;
-}
-
-/* ✅ acceso */
-.glitch-dot.is-on{
-  /* ✅ attivo ma invisibile */
-  opacity:0.001;           /* non 0: così resta “cliccabile” */
-  pointer-events:auto;
-  cursor:pointer;
-}
-
-/* ✅ solo quando ci passi sopra, “glitcha” leggermente */
-.glitch-dot.is-on:hover{
-  opacity:1;
-  background: rgba(102,255,204,0.10);
-  outline: 1px solid rgba(102,255,204,0.22);
-  box-shadow: 0 0 18px rgba(102,255,204,0.16);
-}
-
-@keyframes glitchPulse{
-  0%{ transform: translate(0,0); }
-  25%{ transform: translate(1px,-1px); }
-  50%{ transform: translate(-1px,1px); }
-  75%{ transform: translate(1px,1px); }
-  100%{ transform: translate(0,0); }
-}
-
-    @keyframes glitchHover{
-      0%   { transform: translate(0, var(--gy)) scale(1.02); }
-      25%  { transform: translate(1px, calc(var(--gy) - 1px)) scale(1.04); }
-      50%  { transform: translate(-1px, calc(var(--gy) + 1px)) scale(1.03); }
-      75%  { transform: translate(1px, calc(var(--gy) + 1px)) scale(1.04); }
-      100% { transform: translate(0, var(--gy)) scale(1.02); }
-    }
-
-    /* ==========================
-       GENESIS PANEL
-       ========================== */
+    /* GENESIS PANEL */
     .genesis{
       display:none;
       text-align:center;
@@ -432,7 +229,6 @@
       margin-top: 4px;
     }
     body.genesis .genesis{ display:block; }
-    body.genesis #genesisPanel{ display:block !important; }
 
     .genesis .g-title{
       font-family:var(--mono);
@@ -460,26 +256,27 @@
     }
     .genesis .g-link:hover{ opacity:1; text-decoration:underline; }
 
-    /* when genesis revealed: hide original 3 lines + door text + phase1 message */
+    /* when genesis revealed: hide intro */
     body.genesis .gate-copy{ display:none; }
     body.genesis .door-link{ display:none; }
     body.genesis .phase1-msg{ display:none; }
     body.genesis .door-icon{ opacity:.9; }
 
-    /* Status debug (invisibile di default) */
-    #status {
+    /* debug (off) */
+    #status{
       position: fixed;
       left: 10px;
       bottom: 10px;
       font-family: var(--mono);
       font-size: 11px;
-      opacity: 0;               /* <-- se vuoi vedere debug: metti 1 */
+      opacity: 0; /* metti 1 se vuoi debug */
       pointer-events: none;
       z-index: 9999;
       color: rgba(214,247,231,.8);
       text-shadow: 0 0 12px rgba(0,0,0,.8);
     }
 
+    /* Mobile */
     @media (max-width:700px){
       .home{ padding-top:18px; }
       .home-logo img{ height:190px; transform: translateY(4px); }
@@ -492,18 +289,15 @@
 
       .lang-stack{ top:10px; right:10px; padding:8px; }
       .door-icon{ width:56px; height:56px; }
-
       .phase1-msg{ font-size:12px; max-width: 46ch; }
 
-     @media (max-width:700px){
-  .glitch-dot{
-    top: 34px;
-    right: -16px;
-    width:24px;
-    height:24px;
-  }
-}
-
+      #glitchDot.glitch-dot{
+        top: 34px;
+        right: -16px;
+        width:24px;
+        height:24px;
+      }
+    }
   </style>
 </head>
 
@@ -537,19 +331,18 @@
         <div class="door-wrap">
           <img class="door-icon" src="./assets/img/icons/door1.png" alt="" aria-hidden="true">
 
-          <!-- ✅ onclick diretto: niente listener da agganciare -->
           <button class="door-link" id="doorLink" type="button" onclick="step1()">
             Behind this door, the Path begins.
           </button>
 
           <div class="phase1-msg" id="phase1Msg"></div>
 
-          <!-- ✅ onclick diretto anche qui -->
+          <!-- glitch point (invisible) -->
           <div id="glitchDot" class="glitch-dot" onclick="step2()" aria-label="glitch point"></div>
 
           <div class="genesis" id="genesisPanel" aria-live="polite">
             <div class="g-title" id="gTitle">This is GENESIS, the first step of the Path of Truth.</div>
-            <div class="g-sub" id="gSub">
+            <div class="g-sub">
               <a class="g-link" id="gLink" href="./second.html">Now you are ready for the second step.</a>
             </div>
           </div>
@@ -561,11 +354,9 @@
   </div>
 
   <script>
-    // ---- STATE ----
     const DEFAULT_LANG = "en";
     const STORAGE_KEY = "mockys_lang";
 
-    // ---- TEXTS ----
     const lines = {
       en: ["This is the Path of Truth.","They say it leads to wealth.","It certainly puts everything else into question."],
       it: ["Questa è la Via della Verità.","Dicono che conduca alla ricchezza.","Di sicuro mette in crisi tutto il resto."],
@@ -616,7 +407,6 @@
       fr:"./second.html", de:"./second.html", ru:"./second.html"
     };
 
-    // ---- ELEMENTS ----
     const l1 = document.getElementById("l1");
     const l2 = document.getElementById("l2");
     const l3 = document.getElementById("l3");
@@ -638,7 +428,6 @@
       });
     }
 
-    // ✅ global (serve per onclick)
     window.setLang = function(lang){
       const L = lines[lang] ? lang : DEFAULT_LANG;
 
@@ -663,7 +452,6 @@
       statusEl.textContent = "lang=" + L;
     };
 
-    // ✅ global (onclick)
     window.step1 = function(){
       if (document.body.classList.contains("genesis")) return;
 
@@ -672,13 +460,10 @@
       const L = getSavedLang();
       phase1MsgEl.textContent = phase1Text[L] || phase1Text[DEFAULT_LANG];
 
-      // accende punto
       glitchDotEl.classList.add("is-on");
-
       statusEl.textContent = "phase1 ON";
     };
 
-    // ✅ global (onclick)
     window.step2 = function(){
       if (!document.body.classList.contains("phase1")) return;
 
@@ -689,7 +474,6 @@
       gLinkEl.textContent  = genesisLinkText[L] || genesisLinkText[DEFAULT_LANG];
       gLinkEl.href         = secondStepHref[L] || secondStepHref[DEFAULT_LANG];
 
-      // spegne punto
       glitchDotEl.classList.remove("is-on");
       glitchDotEl.style.pointerEvents = "none";
       glitchDotEl.style.opacity = "0";
@@ -697,295 +481,6 @@
       statusEl.textContent = "genesis ON";
     };
 
-    // init
-    window.setLang(getSavedLang());
-  </script>
-</body>
-</html>
-
-
-    @keyframes glitchHover{
-      0%   { transform: translate(0, var(--gy)) scale(1.02); }
-      25%  { transform: translate(1px, calc(var(--gy) - 1px)) scale(1.04); }
-      50%  { transform: translate(-1px, calc(var(--gy) + 1px)) scale(1.03); }
-      75%  { transform: translate(1px, calc(var(--gy) + 1px)) scale(1.04); }
-      100% { transform: translate(0, var(--gy)) scale(1.02); }
-    }
-
-    /* ==========================
-       GENESIS PANEL
-       ========================== */
-    .genesis{
-      display:none;
-      text-align:center;
-      max-width: 60ch;
-      margin-top: 4px;
-    }
-    body.genesis .genesis{ display:block; }
-    body.genesis #genesisPanel{ display:block !important; }
-
-    .genesis .g-title{
-      font-family:var(--mono);
-      font-size:16px;
-      line-height:1.35;
-      opacity:.95;
-      text-shadow: 0 0 22px rgba(0,0,0,.75);
-    }
-    .genesis .g-sub{
-      margin-top:8px;
-      font-family:var(--mono);
-      font-size:13px;
-      line-height:1.45;
-      opacity:.86;
-      text-shadow: 0 0 18px rgba(0,0,0,.75);
-    }
-    .genesis .g-link{
-      display:inline-block;
-      margin-top:8px;
-      font-family:var(--mono);
-      font-size:13px;
-      opacity:.92;
-      cursor:pointer;
-      text-decoration:none;
-    }
-    .genesis .g-link:hover{ opacity:1; text-decoration:underline; }
-
-    /* when genesis revealed: hide original 3 lines + door text + phase1 message */
-    body.genesis .gate-copy{ display:none; }
-    body.genesis .door-link{ display:none; }
-    body.genesis .phase1-msg{ display:none; }
-    body.genesis .door-icon{ opacity:.9; }
-
-    /* Status debug (invisibile di default) */
-    #status {
-      position: fixed;
-      left: 10px;
-      bottom: 10px;
-      font-family: var(--mono);
-      font-size: 11px;
-      opacity: 0;               /* <-- se vuoi vedere debug: metti 1 */
-      pointer-events: none;
-      z-index: 9999;
-      color: rgba(214,247,231,.8);
-      text-shadow: 0 0 12px rgba(0,0,0,.8);
-    }
-
-    @media (max-width:700px){
-      .home{ padding-top:18px; }
-      .home-logo img{ height:190px; transform: translateY(4px); }
-
-      .gate-frame{
-        margin-top:-32px;
-        padding:14px 16px;
-      }
-      .gate-copy .line{ font-size:15px; }
-
-      .lang-stack{ top:10px; right:10px; padding:8px; }
-      .door-icon{ width:56px; height:56px; }
-
-      .phase1-msg{ font-size:12px; max-width: 46ch; }
-
-      .glitch-dot{
-        right:-12px;
-        width:20px;
-        height:20px;
-        --gy: 214px;
-      }
-    }
-  </style>
-</head>
-
-<body>
-  <div id="status"></div>
-
-  <div class="home">
-    <div class="home-inner">
-
-      <div class="lang-stack" aria-label="Language selector">
-        <button type="button" data-lang="en" onclick="setLang('en')">EN</button>
-        <button type="button" data-lang="es" onclick="setLang('es')">ES</button>
-        <button type="button" data-lang="fr" onclick="setLang('fr')">FR</button>
-        <button type="button" data-lang="it" onclick="setLang('it')">IT</button>
-        <button type="button" data-lang="de" onclick="setLang('de')">DE</button>
-        <button type="button" data-lang="ru" onclick="setLang('ru')">RU</button>
-      </div>
-
-      <div class="home-logo">
-        <img src="./assets/img/logo-mockys.png" alt="MOCKYS">
-      </div>
-
-      <div class="gate-frame" aria-live="polite">
-
-        <div class="gate-copy" id="gateCopy">
-          <div class="line" id="l1">This is the Path of Truth.</div>
-          <div class="line" id="l2">They say it leads to wealth.</div>
-          <div class="line" id="l3">It certainly puts everything else into question.</div>
-        </div>
-
-        <div class="door-wrap">
-          <img class="door-icon" src="./assets/img/icons/door1.png" alt="" aria-hidden="true">
-
-          <!-- ✅ onclick diretto: niente listener da agganciare -->
-          <button class="door-link" id="doorLink" type="button" onclick="step1()">
-            Behind this door, the Path begins.
-          </button>
-
-          <div class="phase1-msg" id="phase1Msg"></div>
-
-          <!-- ✅ onclick diretto anche qui -->
-          <div id="glitchDot" class="glitch-dot" onclick="step2()" aria-label="glitch point"></div>
-
-          <div class="genesis" id="genesisPanel" aria-live="polite">
-            <div class="g-title" id="gTitle">This is GENESIS, the first step of the Path of Truth.</div>
-            <div class="g-sub" id="gSub">
-              <a class="g-link" id="gLink" href="./second.html">Now you are ready for the second step.</a>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-  </div>
-
-  <script>
-    // ---- STATE ----
-    const DEFAULT_LANG = "en";
-    const STORAGE_KEY = "mockys_lang";
-
-    // ---- TEXTS ----
-    const lines = {
-      en: ["This is the Path of Truth.","They say it leads to wealth.","It certainly puts everything else into question."],
-      it: ["Questa è la Via della Verità.","Dicono che conduca alla ricchezza.","Di sicuro mette in crisi tutto il resto."],
-      es: ["Este es el Camino de la Verdad.","Dicen que conduce a la riqueza.","Sin duda pone todo lo demás en cuestión."],
-      fr: ["Voici la Voie de la Vérité.","On dit qu’elle mène à la richesse.","Elle remet certainement tout le reste en question."],
-      de: ["Dies ist der Weg der Wahrheit.","Man sagt, er führe zum Reichtum.","Alles andere stellt er infrage."],
-      ru: ["Это Путь Истины.","Говорят, он ведёт к богатству.","Всё остальное он ставит под сомнение."]
-    };
-
-    const doorText = {
-      en:"Behind this door, the Path begins.",
-      it:"Dietro questa porta inizia la Via.",
-      es:"Detrás de esta puerta comienza el Camino.",
-      fr:"Derrière cette porte commence la Voie.",
-      de:"Hinter dieser Tür beginnt der Weg.",
-      ru:"За этой дверью начинается Путь."
-    };
-
-    const phase1Text = {
-      en:"Now you’re on the Path. If everything feels normal… it’s because you’re not looking in the right place.",
-      it:"Adesso sei sulla Via. Se tutto ti sembra normale... è perché non stai guardando nel punto giusto.",
-      es:"Ahora estás en el Camino. Si todo te parece normal… es porque no estás mirando en el lugar correcto.",
-      fr:"Tu es maintenant sur la Voie. Si tout te paraît normal… c’est que tu ne regardes pas au bon endroit.",
-      de:"Jetzt bist du auf dem Weg. Wenn alles normal wirkt… liegt es daran, dass du nicht an der richtigen Stelle hinsiehst.",
-      ru:"Теперь ты на Пути. Если всё кажется обычным… значит, ты смотришь не туда."
-    };
-
-    const genesisTitle = {
-      en:"This is GENESIS, the first step of the Path of Truth.",
-      it:"Questa è la GENESI, il primo passo della Via della Verità.",
-      es:"Esto es GÉNESIS, el primer paso del Camino de la Verdad.",
-      fr:"Voici la GENÈSE, la première étape de la Voie de la Vérité.",
-      de:"Dies ist GENESIS, der erste Schritt auf dem Weg der Wahrheit.",
-      ru:"Это ГЕНЕЗИС, первый шаг на Пути Истины."
-    };
-
-    const genesisLinkText = {
-      en:"Now you are ready for the second step.",
-      it:"Adesso sei pronto per il secondo passo.",
-      es:"Ahora estás listo para el segundo paso.",
-      fr:"Tu es maintenant prêt pour la deuxième étape.",
-      de:"Jetzt bist du bereit für den zweiten Schritt.",
-      ru:"Теперь ты готов ко второму шагу."
-    };
-
-    const secondStepHref = {
-      en:"./second.html", it:"./second.html", es:"./second.html",
-      fr:"./second.html", de:"./second.html", ru:"./second.html"
-    };
-
-    // ---- ELEMENTS ----
-    const l1 = document.getElementById("l1");
-    const l2 = document.getElementById("l2");
-    const l3 = document.getElementById("l3");
-    const doorLinkEl  = document.getElementById("doorLink");
-    const phase1MsgEl = document.getElementById("phase1Msg");
-    const glitchDotEl = document.getElementById("glitchDot");
-    const gTitleEl = document.getElementById("gTitle");
-    const gLinkEl  = document.getElementById("gLink");
-    const statusEl = document.getElementById("status");
-
-    function getSavedLang(){
-      try { return localStorage.getItem(STORAGE_KEY) || DEFAULT_LANG; }
-      catch(e){ return DEFAULT_LANG; }
-    }
-
-    function setActiveButton(lang){
-      document.querySelectorAll(".lang-stack button").forEach(b => {
-        b.classList.toggle("is-active", b.dataset.lang === lang);
-      });
-    }
-
-    // ✅ global (serve per onclick)
-    window.setLang = function(lang){
-      const L = lines[lang] ? lang : DEFAULT_LANG;
-
-      l1.textContent = lines[L][0];
-      l2.textContent = lines[L][1];
-      l3.textContent = lines[L][2];
-
-      doorLinkEl.textContent = doorText[L] || doorText[DEFAULT_LANG];
-
-      if (document.body.classList.contains("phase1")) {
-        phase1MsgEl.textContent = phase1Text[L] || phase1Text[DEFAULT_LANG];
-      }
-
-      gTitleEl.textContent = genesisTitle[L] || genesisTitle[DEFAULT_LANG];
-      gLinkEl.textContent  = genesisLinkText[L] || genesisLinkText[DEFAULT_LANG];
-      gLinkEl.href         = secondStepHref[L] || secondStepHref[DEFAULT_LANG];
-
-      document.documentElement.lang = L;
-      setActiveButton(L);
-
-      try { localStorage.setItem(STORAGE_KEY, L); } catch(e){}
-      statusEl.textContent = "lang=" + L;
-    };
-
-    // ✅ global (onclick)
-    window.step1 = function(){
-      if (document.body.classList.contains("genesis")) return;
-
-      document.body.classList.add("phase1");
-
-      const L = getSavedLang();
-      phase1MsgEl.textContent = phase1Text[L] || phase1Text[DEFAULT_LANG];
-
-      // accende punto
-      glitchDotEl.classList.add("is-on");
-
-      statusEl.textContent = "phase1 ON";
-    };
-
-    // ✅ global (onclick)
-    window.step2 = function(){
-      if (!document.body.classList.contains("phase1")) return;
-
-      document.body.classList.add("genesis");
-
-      const L = getSavedLang();
-      gTitleEl.textContent = genesisTitle[L] || genesisTitle[DEFAULT_LANG];
-      gLinkEl.textContent  = genesisLinkText[L] || genesisLinkText[DEFAULT_LANG];
-      gLinkEl.href         = secondStepHref[L] || secondStepHref[DEFAULT_LANG];
-
-      // spegne punto
-      glitchDotEl.classList.remove("is-on");
-      glitchDotEl.style.pointerEvents = "none";
-      glitchDotEl.style.opacity = "0";
-
-      statusEl.textContent = "genesis ON";
-    };
-
-    // init
     window.setLang(getSavedLang());
   </script>
 </body>
