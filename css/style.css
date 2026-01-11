@@ -7,7 +7,11 @@
 
 *{ box-sizing:border-box; }
 html, body{ height:100%; }
-html{ background:#000; }
+
+/* ⚠️ html resta trasparente */
+html{
+  background: transparent;
+}
 
 body{
   margin:0;
@@ -18,39 +22,50 @@ body{
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  /* il body non disegna più lo sfondo direttamente */
+  /* fallback nero SOLO sul body */
   background:#000;
+
+  /* crea contesto stabile */
+  position:relative;
+  z-index:0;
 }
 
-/* ===== BACKGROUND LAYER (fixed, controllabile) ===== */
+/* ==========================
+   BACKGROUND LAYER
+   ========================== */
 body::after{
   content:"";
   position:fixed;
   inset:0;
-  z-index:-1;
+
+  /* 🔑 niente z-index negativi */
+  z-index:0;
   pointer-events:none;
 
   background-image:url("../assets/img/bg.png");
   background-repeat:no-repeat;
   background-size:cover;
-  background-position:center 50%;
-  transform: translateZ(0); /* stabilizza il rendering */
+
+  /* ⬇️ IL TUO OFFSET ATTUALE */
+  background-position: center 10%;
+
+  transform: translateZ(0);
 }
 
-/* ✅ Desktop: qui l’offset funziona SEMPRE */
-@media (min-width: 1024px){
-  body::after{
-    background-position: center 10%;
-    /* TEST se vuoi:
-    background-position:left top;
-    */
-  }
+/* ==========================
+   LINK
+   ========================== */
+a{
+  color:var(--accent);
+  text-decoration:none;
+}
+a:hover{
+  text-decoration:underline;
 }
 
-/* link */
-a{ color:var(--accent); text-decoration:none; }
-a:hover{ text-decoration:underline; }
-
+/* ==========================
+   SELECTION
+   ========================== */
 ::selection{
   background:rgba(102,255,204,.22);
   color:var(--fg);
