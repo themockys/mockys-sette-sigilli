@@ -178,22 +178,13 @@
     }
 
     /* ==========================
-       GLITCH HOTSPOT
-       (enabled after phase1)
+       GLITCH HOTSPOT (robusto)
        ========================== */
-
     .glitch-dot{
       position:absolute;
-
-      /* ancoraggio a destra del box */
-      top: 0;
-      right: -14px;
-
-      /* posizione verticale controllata via variabile */
+      top:0;
+      right:-14px;          /* fuori box */
       --gy: 238px;
-
-      /* ✅ transform stabile: translate + scale */
-      transform: translate(0, var(--gy)) scale(.92);
 
       width:22px;
       height:22px;
@@ -201,22 +192,23 @@
 
       opacity:0;
       pointer-events:none;
-      transition: opacity .2s ease, transform .2s ease;
 
       background: rgba(255,255,255,0.02);
-      z-index: 20;
+      z-index:20;
+
+      transform: translate(0, var(--gy)) scale(.92);
+      transition: opacity .2s ease;
     }
 
-    /* quando attivo */
-    body.phase1 .glitch-dot{
-      opacity:.85;
+    /* ✅ acceso quando aggiungiamo la classe */
+    .glitch-dot.is-on{
+      opacity:.90;
       pointer-events:auto;
-      transform: translate(0, var(--gy)) scale(1);
       cursor:pointer;
       animation: glitchPulse 1.1s steps(2,end) infinite;
     }
 
-    body.phase1 .glitch-dot:hover{
+    .glitch-dot.is-on:hover{
       opacity:1;
       animation: glitchHover .55s steps(2,end) infinite;
     }
@@ -303,9 +295,9 @@
 
       .phase1-msg{ font-size:12px; max-width: 46ch; }
 
-      /* sposta hotspot su mobile (solo la Y) */
+      /* sposta hotspot su mobile */
       .glitch-dot{
-        right: -12px;
+        right:-12px;
         width:20px;
         height:20px;
         --gy: 214px;
@@ -424,7 +416,7 @@
         es: "Ahora estás en el Camino. Si todo te parece normal… es porque no estás mirando en el lugar correcto.",
         fr: "Tu es maintenant sur la Voie. Si tout te paraît normal… c’est que tu ne regardes pas au bon endroit.",
         de: "Jetzt bist du auf dem Weg. Wenn alles normal wirkt… liegt es daran, dass du nicht an der richtigen Stelle hinsiehst.",
-        ru: "Теперь ты на Пути. Если всё кажется обычным… значит, ты смотришь не туда."
+        ru: "Теперь ты на Пути. Если всё кажется обычным… значит, ты смотriшь не туда."
       };
 
       const genesisTitle = {
@@ -517,6 +509,7 @@
         if (document.body.classList.contains("genesis")) return;
 
         document.body.classList.add("phase1");
+        glitchDotEl.classList.add("is-on"); // ✅ accende il punto
 
         const L = getSavedLang();
         phase1MsgEl.textContent = phase1Text[L] || phase1Text[DEFAULT_LANG];
@@ -524,9 +517,7 @@
 
       // Step 2 (GLITCH)
       glitchDotEl.addEventListener("click", (e) => {
-        // ✅ evita bubbling/azioni strane
         if (e) { e.preventDefault(); e.stopPropagation(); }
-
         if (!document.body.classList.contains("phase1")) return;
 
         document.body.classList.add("genesis");
@@ -536,7 +527,8 @@
         gLinkEl.textContent  = genesisLinkText[L] || genesisLinkText[DEFAULT_LANG];
         gLinkEl.href         = secondStepHref[L] || secondStepHref[DEFAULT_LANG];
 
-        // ✅ disattiva il punto dopo il click
+        // ✅ spegne il punto dopo il click
+        glitchDotEl.classList.remove("is-on");
         glitchDotEl.style.pointerEvents = "none";
         glitchDotEl.style.opacity = "0";
       });
