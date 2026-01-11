@@ -183,23 +183,28 @@
        GLITCH HOTSPOT (enabled after phase1)
        ========================== */
     .glitch-dot{
-      position:absolute;
-      /* posizione “default” (poi la rifiniamo) */
-      top: 118px;
-      right: 26px;
+  position:absolute;
 
-      width:18px;
-      height:18px;
-      border-radius:999px;
+  /* ✅ ancorato alla zona porta, lato destro */
+  top: 0;
+  right: -14px;            /* 🔺 fuori dal box di un pelo */
 
-      opacity:0;
-      pointer-events:none;
-      transform: scale(.9);
-      transition: opacity .2s ease, transform .2s ease;
+  /* useremo translate per posizionarlo rispetto alla porta */
+  transform: translate(0, 238px);
 
-      /* quasi invisibile, ma “vivo” */
-      background: rgba(255,255,255,0.02);
-    }
+  width:22px;
+  height:22px;
+  border-radius:999px;
+
+  opacity:0;
+  pointer-events:none;
+  transition: opacity .2s ease, transform .2s ease;
+
+  background: rgba(255,255,255,0.02);
+
+  /* ✅ sempre cliccabile sopra */
+  z-index: 20;
+}
 
     /* quando attivo */
     body.phase1 .glitch-dot{
