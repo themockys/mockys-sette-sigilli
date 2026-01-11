@@ -372,47 +372,38 @@
 
 .glitch-dot{
   position:absolute;
-
-  /* ✅ accanto alla porta (centro porta) */
   top: 38px;
   right: -18px;
 
-  width:18px;
-  height:18px;
+  /* ✅ hitbox comoda */
+  width:26px;
+  height:26px;
   border-radius:999px;
 
+  /* ✅ invisibile */
   opacity:0;
   pointer-events:none;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
 
   z-index: 50;
-
-  /* invisibile di default */
-  background: transparent;
 }
 
 /* ✅ acceso */
 .glitch-dot.is-on{
-  opacity:1;
+  /* ✅ attivo ma invisibile */
+  opacity:0.001;           /* non 0: così resta “cliccabile” */
   pointer-events:auto;
   cursor:pointer;
-
-  /* “quasi invisibile”, ma percepibile */
-  background: rgba(102,255,204,0.08);
-  border: 1px solid rgba(102,255,204,0.18);
-  box-shadow:
-    0 0 14px rgba(102,255,204,0.12),
-    0 0 6px rgba(0,0,0,0.35);
-
-  /* micro instabilità */
-  animation: glitchPulse 1.1s steps(2,end) infinite;
 }
 
+/* ✅ solo quando ci passi sopra, “glitcha” leggermente */
 .glitch-dot.is-on:hover{
-  background: rgba(102,255,204,0.14);
-  border-color: rgba(102,255,204,0.30);
-  box-shadow:
-    0 0 20px rgba(102,255,204,0.18),
-    0 0 8px rgba(0,0,0,0.45);
+  opacity:1;
+  background: rgba(102,255,204,0.10);
+  outline: 1px solid rgba(102,255,204,0.22);
+  box-shadow: 0 0 18px rgba(102,255,204,0.16);
 }
 
 @keyframes glitchPulse{
@@ -504,13 +495,15 @@
 
       .phase1-msg{ font-size:12px; max-width: 46ch; }
 
-      .glitch-dot{
-        right:-12px;
-        width:20px;
-        height:20px;
-        --gy: 214px;
-      }
-    }
+     @media (max-width:700px){
+  .glitch-dot{
+    top: 34px;
+    right: -16px;
+    width:24px;
+    height:24px;
+  }
+}
+
   </style>
 </head>
 
