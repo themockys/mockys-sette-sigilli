@@ -151,17 +151,15 @@
       letter-spacing:0.02em;
       opacity:.82;
       cursor:pointer;
-      text-decoration:none;
       transition:opacity .12s ease;
 
-      /* reset button look */
       background:transparent;
       border:0;
       padding:0;
       color: var(--accent);
     }
     .door-link:hover{ opacity:1; }
-    .door-link:focus{ outline: none; }
+    .door-link:focus{ outline:none; }
 
     /* ==========================
        STEP 1: message reveal
@@ -219,12 +217,6 @@
       animation: glitchHover .55s steps(2,end) infinite;
     }
 
-    /* debug flash (solo se serve) */
-    .glitch-dot.debug{
-      outline: 1px solid rgba(255,255,255,.25);
-      background: rgba(255,255,255,0.08);
-    }
-
     @keyframes glitchPulse{
       0%   { box-shadow:0 0 0 rgba(102,255,204,0.00); transform: translate(0, var(--gy)) scale(1); }
       50%  { box-shadow:0 0 18px rgba(102,255,204,0.16); transform: translate(0.5px, calc(var(--gy) - 0.5px)) scale(1.02); }
@@ -277,10 +269,25 @@
     }
     .genesis .g-link:hover{ opacity:1; text-decoration:underline; }
 
+    /* when genesis revealed: hide original 3 lines + door text + phase1 message */
     body.genesis .gate-copy{ display:none; }
     body.genesis .door-link{ display:none; }
     body.genesis .phase1-msg{ display:none; }
     body.genesis .door-icon{ opacity:.9; }
+
+    /* Status debug (invisibile di default) */
+    #status {
+      position: fixed;
+      left: 10px;
+      bottom: 10px;
+      font-family: var(--mono);
+      font-size: 11px;
+      opacity: 0;               /* <-- se vuoi vedere debug: metti 1 */
+      pointer-events: none;
+      z-index: 9999;
+      color: rgba(214,247,231,.8);
+      text-shadow: 0 0 12px rgba(0,0,0,.8);
+    }
 
     @media (max-width:700px){
       .home{ padding-top:18px; }
@@ -308,16 +315,18 @@
 </head>
 
 <body>
+  <div id="status"></div>
+
   <div class="home">
     <div class="home-inner">
 
       <div class="lang-stack" aria-label="Language selector">
-        <button type="button" data-lang="en">EN</button>
-        <button type="button" data-lang="es">ES</button>
-        <button type="button" data-lang="fr">FR</button>
-        <button type="button" data-lang="it">IT</button>
-        <button type="button" data-lang="de">DE</button>
-        <button type="button" data-lang="ru">RU</button>
+        <button type="button" data-lang="en" onclick="setLang('en')">EN</button>
+        <button type="button" data-lang="es" onclick="setLang('es')">ES</button>
+        <button type="button" data-lang="fr" onclick="setLang('fr')">FR</button>
+        <button type="button" data-lang="it" onclick="setLang('it')">IT</button>
+        <button type="button" data-lang="de" onclick="setLang('de')">DE</button>
+        <button type="button" data-lang="ru" onclick="setLang('ru')">RU</button>
       </div>
 
       <div class="home-logo">
@@ -335,14 +344,15 @@
         <div class="door-wrap">
           <img class="door-icon" src="./assets/img/icons/door1.png" alt="" aria-hidden="true">
 
-          <!-- ✅ button instead of anchor -->
-          <button class="door-link" id="doorLink" type="button" aria-controls="phase1Msg">
+          <!-- ✅ onclick diretto: niente listener da agganciare -->
+          <button class="door-link" id="doorLink" type="button" onclick="step1()">
             Behind this door, the Path begins.
           </button>
 
           <div class="phase1-msg" id="phase1Msg"></div>
 
-          <div id="glitchDot" class="glitch-dot" aria-label="glitch point" title=""></div>
+          <!-- ✅ onclick diretto anche qui -->
+          <div id="glitchDot" class="glitch-dot" onclick="step2()" aria-label="glitch point"></div>
 
           <div class="genesis" id="genesisPanel" aria-live="polite">
             <div class="g-title" id="gTitle">This is GENESIS, the first step of the Path of Truth.</div>
@@ -358,188 +368,144 @@
   </div>
 
   <script>
-    (function(){
-      const DEFAULT_LANG = "en";
-      const STORAGE_KEY = "mockys_lang";
+    // ---- STATE ----
+    const DEFAULT_LANG = "en";
+    const STORAGE_KEY = "mockys_lang";
 
-      const lines = {
-        en: [
-          "This is the Path of Truth.",
-          "They say it leads to wealth.",
-          "It certainly puts everything else into question."
-        ],
-        it: [
-          "Questa è la Via della Verità.",
-          "Dicono che conduca alla ricchezza.",
-          "Di sicuro mette in crisi tutto il resto."
-        ],
-        es: [
-          "Este es el Camino de la Verdad.",
-          "Dicen que conduce a la riqueza.",
-          "Sin duda pone todo lo demás en cuestión."
-        ],
-        fr: [
-          "Voici la Voie de la Vérité.",
-          "On dit qu’elle mène à la richesse.",
-          "Elle remet certainement tout le reste en question."
-        ],
-        de: [
-          "Dies ist der Weg der Wahrheit.",
-          "Man sagt, er führe zum Reichtum.",
-          "Alles andere stellt er infrage."
-        ],
-        ru: [
-          "Это Путь Истины.",
-          "Говорят, он ведёт к богатству.",
-          "Всё остальное он ставит под сомнение."
-        ]
-      };
+    // ---- TEXTS ----
+    const lines = {
+      en: ["This is the Path of Truth.","They say it leads to wealth.","It certainly puts everything else into question."],
+      it: ["Questa è la Via della Verità.","Dicono che conduca alla ricchezza.","Di sicuro mette in crisi tutto il resto."],
+      es: ["Este es el Camino de la Verdad.","Dicen que conduce a la riqueza.","Sin duda pone todo lo demás en cuestión."],
+      fr: ["Voici la Voie de la Vérité.","On dit qu’elle mène à la richesse.","Elle remet certainement tout le reste en question."],
+      de: ["Dies ist der Weg der Wahrheit.","Man sagt, er führe zum Reichtum.","Alles andere stellt er infrage."],
+      ru: ["Это Путь Истины.","Говорят, он ведёт к богатству.","Всё остальное он ставит под сомнение."]
+    };
 
-      const doorText = {
-        en: "Behind this door, the Path begins.",
-        it: "Dietro questa porta inizia la Via.",
-        es: "Detrás de esta puerta comienza el Camino.",
-        fr: "Derrière cette porte commence la Voie.",
-        de: "Hinter dieser Tür beginnt der Weg.",
-        ru: "За этой дверью начинается Путь."
-      };
+    const doorText = {
+      en:"Behind this door, the Path begins.",
+      it:"Dietro questa porta inizia la Via.",
+      es:"Detrás de esta puerta comienza el Camino.",
+      fr:"Derrière cette porte commence la Voie.",
+      de:"Hinter dieser Tür beginnt der Weg.",
+      ru:"За этой дверью начинается Путь."
+    };
 
-      const phase1Text = {
-        en: "Now you’re on the Path. If everything feels normal… it’s because you’re not looking in the right place.",
-        it: "Adesso sei sulla Via. Se tutto ti sembra normale... è perché non stai guardando nel punto giusto.",
-        es: "Ahora estás en el Camino. Si todo te parece normal… es porque no estás mirando en el lugar correcto.",
-        fr: "Tu es maintenant sur la Voie. Si tout te paraît normal… c’est que tu ne regardes pas au bon endroit.",
-        de: "Jetzt bist du auf dem Weg. Wenn alles normal wirkt… liegt es daran, dass du nicht an der richtigen Stelle hinsiehst.",
-        ru: "Теперь ты на Пути. Если всё кажется обычным… значит, ты смотришь не туда."
-      };
+    const phase1Text = {
+      en:"Now you’re on the Path. If everything feels normal… it’s because you’re not looking in the right place.",
+      it:"Adesso sei sulla Via. Se tutto ti sembra normale... è perché non stai guardando nel punto giusto.",
+      es:"Ahora estás en el Camino. Si todo te parece normal… es porque no estás mirando en el lugar correcto.",
+      fr:"Tu es maintenant sur la Voie. Si tout te paraît normal… c’est que tu ne regardes pas au bon endroit.",
+      de:"Jetzt bist du auf dem Weg. Wenn alles normal wirkt… liegt es daran, dass du nicht an der richtigen Stelle hinsiehst.",
+      ru:"Теперь ты на Пути. Если всё кажется обычным… значит, ты смотришь не туда."
+    };
 
-      const genesisTitle = {
-        en: "This is GENESIS, the first step of the Path of Truth.",
-        it: "Questa è la GENESI, il primo passo della Via della Verità.",
-        es: "Esto es GÉNESIS, el primer paso del Camino de la Verdad.",
-        fr: "Voici la GENÈSE, la première étape de la Voie de la Vérité.",
-        de: "Dies ist GENESIS, der erste Schritt auf dem Weg der Wahrheit.",
-        ru: "Это ГЕНЕЗИС, первый шаг на Пути Истины."
-      };
+    const genesisTitle = {
+      en:"This is GENESIS, the first step of the Path of Truth.",
+      it:"Questa è la GENESI, il primo passo della Via della Verità.",
+      es:"Esto es GÉNESIS, el primer paso del Camino de la Verdad.",
+      fr:"Voici la GENÈSE, la première étape de la Voie de la Vérité.",
+      de:"Dies ist GENESIS, der erste Schritt auf dem Weg der Wahrheit.",
+      ru:"Это ГЕНЕЗИС, первый шаг на Пути Истины."
+    };
 
-      const genesisLinkText = {
-        en: "Now you are ready for the second step.",
-        it: "Adesso sei pronto per il secondo passo.",
-        es: "Ahora estás listo para el segundo paso.",
-        fr: "Tu es maintenant prêt pour la deuxième étape.",
-        de: "Jetzt bist du bereit für den zweiten Schritt.",
-        ru: "Теперь ты готов ко второму шагу."
-      };
+    const genesisLinkText = {
+      en:"Now you are ready for the second step.",
+      it:"Adesso sei pronto per il secondo passo.",
+      es:"Ahora estás listo para el segundo paso.",
+      fr:"Tu es maintenant prêt pour la deuxième étape.",
+      de:"Jetzt bist du bereit für den zweiten Schritt.",
+      ru:"Теперь ты готов ко второму шагу."
+    };
 
-      const secondStepHref = {
-        en: "./second.html",
-        it: "./second.html",
-        es: "./second.html",
-        fr: "./second.html",
-        de: "./second.html",
-        ru: "./second.html"
-      };
+    const secondStepHref = {
+      en:"./second.html", it:"./second.html", es:"./second.html",
+      fr:"./second.html", de:"./second.html", ru:"./second.html"
+    };
 
-      const l1 = document.getElementById("l1");
-      const l2 = document.getElementById("l2");
-      const l3 = document.getElementById("l3");
+    // ---- ELEMENTS ----
+    const l1 = document.getElementById("l1");
+    const l2 = document.getElementById("l2");
+    const l3 = document.getElementById("l3");
+    const doorLinkEl  = document.getElementById("doorLink");
+    const phase1MsgEl = document.getElementById("phase1Msg");
+    const glitchDotEl = document.getElementById("glitchDot");
+    const gTitleEl = document.getElementById("gTitle");
+    const gLinkEl  = document.getElementById("gLink");
+    const statusEl = document.getElementById("status");
 
-      const doorLinkEl   = document.getElementById("doorLink");
-      const phase1MsgEl  = document.getElementById("phase1Msg");
-      const glitchDotEl  = document.getElementById("glitchDot");
+    function getSavedLang(){
+      try { return localStorage.getItem(STORAGE_KEY) || DEFAULT_LANG; }
+      catch(e){ return DEFAULT_LANG; }
+    }
 
-      const gTitleEl = document.getElementById("gTitle");
-      const gLinkEl  = document.getElementById("gLink");
-
-      const buttons = Array.from(document.querySelectorAll(".lang-stack button"));
-
-      function setActiveButton(lang){
-        buttons.forEach(b => b.classList.toggle("is-active", b.dataset.lang === lang));
-      }
-
-      function getSavedLang(){
-        try { return localStorage.getItem(STORAGE_KEY) || DEFAULT_LANG; } catch(e){ return DEFAULT_LANG; }
-      }
-
-      function setLang(lang){
-        const L = lines[lang] ? lang : DEFAULT_LANG;
-        const t = lines[L];
-
-        l1.textContent = t[0];
-        l2.textContent = t[1];
-        l3.textContent = t[2];
-
-        doorLinkEl.textContent = doorText[L] || doorText[DEFAULT_LANG];
-
-        if (document.body.classList.contains("phase1")) {
-          phase1MsgEl.textContent = phase1Text[L] || phase1Text[DEFAULT_LANG];
-        } else {
-          phase1MsgEl.textContent = "";
-        }
-
-        gTitleEl.textContent = genesisTitle[L] || genesisTitle[DEFAULT_LANG];
-        gLinkEl.textContent  = genesisLinkText[L] || genesisLinkText[DEFAULT_LANG];
-        gLinkEl.href         = secondStepHref[L] || secondStepHref[DEFAULT_LANG];
-
-        document.documentElement.lang = L;
-        setActiveButton(L);
-
-        try { localStorage.setItem(STORAGE_KEY, L); } catch(e){}
-      }
-
-      setLang(getSavedLang());
-
-      buttons.forEach(btn => {
-        btn.addEventListener("click", () => {
-          const L = btn.dataset.lang;
-          if (!L || btn.classList.contains("is-active")) return;
-          setLang(L);
-        });
+    function setActiveButton(lang){
+      document.querySelectorAll(".lang-stack button").forEach(b => {
+        b.classList.toggle("is-active", b.dataset.lang === lang);
       });
+    }
 
-      function turnOnGlitch(){
-        glitchDotEl.classList.add("is-on");
+    // ✅ global (serve per onclick)
+    window.setLang = function(lang){
+      const L = lines[lang] ? lang : DEFAULT_LANG;
 
-        // debug flash breve: se non lo vedi, almeno capisci che è ON
-        glitchDotEl.classList.add("debug");
-        setTimeout(() => glitchDotEl.classList.remove("debug"), 800);
+      l1.textContent = lines[L][0];
+      l2.textContent = lines[L][1];
+      l3.textContent = lines[L][2];
+
+      doorLinkEl.textContent = doorText[L] || doorText[DEFAULT_LANG];
+
+      if (document.body.classList.contains("phase1")) {
+        phase1MsgEl.textContent = phase1Text[L] || phase1Text[DEFAULT_LANG];
       }
 
-      // Step 1
-      const step1 = () => {
-        if (document.body.classList.contains("genesis")) return;
+      gTitleEl.textContent = genesisTitle[L] || genesisTitle[DEFAULT_LANG];
+      gLinkEl.textContent  = genesisLinkText[L] || genesisLinkText[DEFAULT_LANG];
+      gLinkEl.href         = secondStepHref[L] || secondStepHref[DEFAULT_LANG];
 
-        document.body.classList.add("phase1");
-        turnOnGlitch();
+      document.documentElement.lang = L;
+      setActiveButton(L);
 
-        const L = getSavedLang();
-        phase1MsgEl.textContent = phase1Text[L] || phase1Text[DEFAULT_LANG];
-      };
+      try { localStorage.setItem(STORAGE_KEY, L); } catch(e){}
+      statusEl.textContent = "lang=" + L;
+    };
 
-      doorLinkEl.addEventListener("pointerup", step1);
-      doorLinkEl.addEventListener("click", step1);
+    // ✅ global (onclick)
+    window.step1 = function(){
+      if (document.body.classList.contains("genesis")) return;
 
-      // Step 2 (GLITCH)
-      const step2 = (e) => {
-        if (e) { e.preventDefault(); e.stopPropagation(); }
-        if (!document.body.classList.contains("phase1")) return;
+      document.body.classList.add("phase1");
 
-        document.body.classList.add("genesis");
+      const L = getSavedLang();
+      phase1MsgEl.textContent = phase1Text[L] || phase1Text[DEFAULT_LANG];
 
-        const L = getSavedLang();
-        gTitleEl.textContent = genesisTitle[L] || genesisTitle[DEFAULT_LANG];
-        gLinkEl.textContent  = genesisLinkText[L] || genesisLinkText[DEFAULT_LANG];
-        gLinkEl.href         = secondStepHref[L] || secondStepHref[DEFAULT_LANG];
+      // accende punto
+      glitchDotEl.classList.add("is-on");
 
-        glitchDotEl.classList.remove("is-on");
-        glitchDotEl.style.pointerEvents = "none";
-        glitchDotEl.style.opacity = "0";
-      };
+      statusEl.textContent = "phase1 ON";
+    };
 
-      glitchDotEl.addEventListener("pointerup", step2);
-      glitchDotEl.addEventListener("click", step2);
+    // ✅ global (onclick)
+    window.step2 = function(){
+      if (!document.body.classList.contains("phase1")) return;
 
-    })();
+      document.body.classList.add("genesis");
+
+      const L = getSavedLang();
+      gTitleEl.textContent = genesisTitle[L] || genesisTitle[DEFAULT_LANG];
+      gLinkEl.textContent  = genesisLinkText[L] || genesisLinkText[DEFAULT_LANG];
+      gLinkEl.href         = secondStepHref[L] || secondStepHref[DEFAULT_LANG];
+
+      // spegne punto
+      glitchDotEl.classList.remove("is-on");
+      glitchDotEl.style.pointerEvents = "none";
+      glitchDotEl.style.opacity = "0";
+
+      statusEl.textContent = "genesis ON";
+    };
+
+    // init
+    window.setLang(getSavedLang());
   </script>
 </body>
 </html>
