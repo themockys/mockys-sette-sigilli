@@ -143,7 +143,7 @@
       pointer-events:none;
     }
 
-    /* The ONLY clickable thing (step 1 trigger) */
+    /* Step 1 trigger as REAL button */
     .door-link{
       margin-top:2px;
       font-family:var(--mono);
@@ -153,8 +153,15 @@
       cursor:pointer;
       text-decoration:none;
       transition:opacity .12s ease;
+
+      /* reset button look */
+      background:transparent;
+      border:0;
+      padding:0;
+      color: var(--accent);
     }
     .door-link:hover{ opacity:1; }
+    .door-link:focus{ outline: none; }
 
     /* ==========================
        STEP 1: message reveal
@@ -183,7 +190,7 @@
     .glitch-dot{
       position:absolute;
       top:0;
-      right:-14px;          /* fuori box */
+      right:-14px;
       --gy: 238px;
 
       width:22px;
@@ -200,7 +207,6 @@
       transition: opacity .2s ease;
     }
 
-    /* ✅ acceso quando aggiungiamo la classe */
     .glitch-dot.is-on{
       opacity:.90;
       pointer-events:auto;
@@ -211,6 +217,12 @@
     .glitch-dot.is-on:hover{
       opacity:1;
       animation: glitchHover .55s steps(2,end) infinite;
+    }
+
+    /* debug flash (solo se serve) */
+    .glitch-dot.debug{
+      outline: 1px solid rgba(255,255,255,.25);
+      background: rgba(255,255,255,0.08);
     }
 
     @keyframes glitchPulse{
@@ -236,14 +248,8 @@
       max-width: 60ch;
       margin-top: 4px;
     }
-    body.genesis .genesis{
-      display:block;
-    }
-
-    /* ✅ Salvagente: GENESI deve comparire SEMPRE */
-    body.genesis #genesisPanel{
-      display:block !important;
-    }
+    body.genesis .genesis{ display:block; }
+    body.genesis #genesisPanel{ display:block !important; }
 
     .genesis .g-title{
       font-family:var(--mono);
@@ -271,15 +277,11 @@
     }
     .genesis .g-link:hover{ opacity:1; text-decoration:underline; }
 
-    /* when genesis revealed: hide original 3 lines + door text + phase1 message */
     body.genesis .gate-copy{ display:none; }
     body.genesis .door-link{ display:none; }
     body.genesis .phase1-msg{ display:none; }
-
-    /* keep the door icon */
     body.genesis .door-icon{ opacity:.9; }
 
-    /* Mobile */
     @media (max-width:700px){
       .home{ padding-top:18px; }
       .home-logo img{ height:190px; transform: translateY(4px); }
@@ -295,7 +297,6 @@
 
       .phase1-msg{ font-size:12px; max-width: 46ch; }
 
-      /* sposta hotspot su mobile */
       .glitch-dot{
         right:-12px;
         width:20px;
@@ -310,7 +311,6 @@
   <div class="home">
     <div class="home-inner">
 
-      <!-- Language stack (top-right) -->
       <div class="lang-stack" aria-label="Language selector">
         <button type="button" data-lang="en">EN</button>
         <button type="button" data-lang="es">ES</button>
@@ -320,15 +320,12 @@
         <button type="button" data-lang="ru">RU</button>
       </div>
 
-      <!-- LOGO MOCKYS -->
       <div class="home-logo">
         <img src="./assets/img/logo-mockys.png" alt="MOCKYS">
       </div>
 
-      <!-- CENTRAL GLASS FRAME -->
       <div class="gate-frame" aria-live="polite">
 
-        <!-- Welcome copy (3 lines) -->
         <div class="gate-copy" id="gateCopy">
           <div class="line" id="l1">This is the Path of Truth.</div>
           <div class="line" id="l2">They say it leads to wealth.</div>
@@ -338,18 +335,15 @@
         <div class="door-wrap">
           <img class="door-icon" src="./assets/img/icons/door1.png" alt="" aria-hidden="true">
 
-          <!-- Step 1 trigger -->
-          <a class="door-link" id="doorLink" href="#" role="button" aria-controls="phase1Msg">
+          <!-- ✅ button instead of anchor -->
+          <button class="door-link" id="doorLink" type="button" aria-controls="phase1Msg">
             Behind this door, the Path begins.
-          </a>
+          </button>
 
-          <!-- Phase 1 message -->
           <div class="phase1-msg" id="phase1Msg"></div>
 
-          <!-- Glitch hotspot -->
           <div id="glitchDot" class="glitch-dot" aria-label="glitch point" title=""></div>
 
-          <!-- Genesis panel -->
           <div class="genesis" id="genesisPanel" aria-live="polite">
             <div class="g-title" id="gTitle">This is GENESIS, the first step of the Path of Truth.</div>
             <div class="g-sub" id="gSub">
@@ -416,7 +410,7 @@
         es: "Ahora estás en el Camino. Si todo te parece normal… es porque no estás mirando en el lugar correcto.",
         fr: "Tu es maintenant sur la Voie. Si tout te paraît normal… c’est que tu ne regardes pas au bon endroit.",
         de: "Jetzt bist du auf dem Weg. Wenn alles normal wirkt… liegt es daran, dass du nicht an der richtigen Stelle hinsiehst.",
-        ru: "Теперь ты на Пути. Если всё кажется обычным… значит, ты смотriшь не туда."
+        ru: "Теперь ты на Пути. Если всё кажется обычным… значит, ты смотришь не туда."
       };
 
       const genesisTitle = {
@@ -503,20 +497,30 @@
         });
       });
 
+      function turnOnGlitch(){
+        glitchDotEl.classList.add("is-on");
+
+        // debug flash breve: se non lo vedi, almeno capisci che è ON
+        glitchDotEl.classList.add("debug");
+        setTimeout(() => glitchDotEl.classList.remove("debug"), 800);
+      }
+
       // Step 1
-      doorLinkEl.addEventListener("click", (e) => {
-        e.preventDefault();
+      const step1 = () => {
         if (document.body.classList.contains("genesis")) return;
 
         document.body.classList.add("phase1");
-        glitchDotEl.classList.add("is-on"); // ✅ accende il punto
+        turnOnGlitch();
 
         const L = getSavedLang();
         phase1MsgEl.textContent = phase1Text[L] || phase1Text[DEFAULT_LANG];
-      });
+      };
+
+      doorLinkEl.addEventListener("pointerup", step1);
+      doorLinkEl.addEventListener("click", step1);
 
       // Step 2 (GLITCH)
-      glitchDotEl.addEventListener("click", (e) => {
+      const step2 = (e) => {
         if (e) { e.preventDefault(); e.stopPropagation(); }
         if (!document.body.classList.contains("phase1")) return;
 
@@ -527,11 +531,13 @@
         gLinkEl.textContent  = genesisLinkText[L] || genesisLinkText[DEFAULT_LANG];
         gLinkEl.href         = secondStepHref[L] || secondStepHref[DEFAULT_LANG];
 
-        // ✅ spegne il punto dopo il click
         glitchDotEl.classList.remove("is-on");
         glitchDotEl.style.pointerEvents = "none";
         glitchDotEl.style.opacity = "0";
-      });
+      };
+
+      glitchDotEl.addEventListener("pointerup", step2);
+      glitchDotEl.addEventListener("click", step2);
 
     })();
   </script>
